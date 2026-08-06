@@ -1,0 +1,23 @@
+# Exclude data dir entirely - MIMIC-III raw data and curated output are mounted at runtime
+data/
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+
+# IDE / misc
+.cursor/
+*.md
+last_run.txt
+
+# Large data files (MIMIC CSVs are in data/ which is excluded above)
+*.csv.gz

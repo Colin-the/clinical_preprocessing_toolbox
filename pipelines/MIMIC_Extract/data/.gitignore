@@ -1,0 +1,5 @@
+# Ignore everything here as it is just a virtual Python environment
+*
+# Except this file and the readme
+!.gitignore
+!README.md

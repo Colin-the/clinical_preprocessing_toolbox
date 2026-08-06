@@ -1,0 +1,16 @@
+# Root-level .gitignore for the toolbox as a whole.
+
+pipelines/MIMIC_Extract/.venv_stats/
+
+# comparison/ has no nested .gitignore of its own
+comparison/logs/*
+!comparison/logs/.gitkeep
+
+# Generic, cross-project
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.DS_Store
+**/*.sbatch
+_deprecated/

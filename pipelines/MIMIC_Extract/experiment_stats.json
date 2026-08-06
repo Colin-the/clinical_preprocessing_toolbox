@@ -1,0 +1,562 @@
+{
+  "age35_range10": {
+    "num_entries": 1837,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 67.61166804869244,
+        "median": 67.0,
+        "std": 14.245258836274637
+      },
+      "heart rate": {
+        "mean": 90.87372444933875,
+        "median": 90.0,
+        "std": 18.484159140555235
+      },
+      "mean blood pressure": {
+        "mean": 83.70433968196451,
+        "median": 82.0,
+        "std": 15.622061882078528
+      },
+      "oxygen saturation": {
+        "mean": 97.07517401367515,
+        "median": 98.0,
+        "std": 3.568546443019294
+      },
+      "respiratory rate": {
+        "mean": 19.234878492663753,
+        "median": 18.0,
+        "std": 6.228011144255805
+      },
+      "systolic blood pressure": {
+        "mean": 121.60154060014901,
+        "median": 120.0,
+        "std": 20.589542203156135
+      },
+      "temperature": {
+        "mean": 37.174048772242315,
+        "median": 37.111111111111114,
+        "std": 0.8193866029929423
+      }
+    }
+  },
+  "age35_range15": {
+    "num_entries": 2676,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 67.5176711765363,
+        "median": 67.0,
+        "std": 14.242381144173084
+      },
+      "heart rate": {
+        "mean": 90.78193631068645,
+        "median": 90.0,
+        "std": 18.437907878083664
+      },
+      "mean blood pressure": {
+        "mean": 83.6132681527857,
+        "median": 82.0,
+        "std": 15.529548800653004
+      },
+      "oxygen saturation": {
+        "mean": 97.07691532498048,
+        "median": 98.0,
+        "std": 3.433397880292912
+      },
+      "respiratory rate": {
+        "mean": 19.17693158629734,
+        "median": 18.0,
+        "std": 6.18696329419534
+      },
+      "systolic blood pressure": {
+        "mean": 121.75952874212854,
+        "median": 120.0,
+        "std": 20.591660426528907
+      },
+      "temperature": {
+        "mean": 37.18196562728062,
+        "median": 37.166666666666664,
+        "std": 0.823252821122282
+      }
+    }
+  },
+  "age35_range5": {
+    "num_entries": 712,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 67.48047344817688,
+        "median": 67.0,
+        "std": 14.255426556513385
+      },
+      "heart rate": {
+        "mean": 90.96350837932007,
+        "median": 91.0,
+        "std": 18.859785814113916
+      },
+      "mean blood pressure": {
+        "mean": 83.67735907348661,
+        "median": 82.0,
+        "std": 15.693923297110192
+      },
+      "oxygen saturation": {
+        "mean": 97.07080185595994,
+        "median": 98.0,
+        "std": 4.020999974683588
+      },
+      "respiratory rate": {
+        "mean": 19.253632531655583,
+        "median": 18.0,
+        "std": 6.211103436106999
+      },
+      "systolic blood pressure": {
+        "mean": 121.8581109473282,
+        "median": 120.0,
+        "std": 21.150831009996228
+      },
+      "temperature": {
+        "mean": 37.20128408607164,
+        "median": 37.166666666666664,
+        "std": 0.8087116245012187
+      }
+    }
+  },
+  "age45_range10": {
+    "num_entries": 3652,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 66.85036129843697,
+        "median": 66.0,
+        "std": 14.269067359880804
+      },
+      "heart rate": {
+        "mean": 88.36195211577093,
+        "median": 88.0,
+        "std": 18.067492410279275
+      },
+      "mean blood pressure": {
+        "mean": 83.30254080159388,
+        "median": 82.0,
+        "std": 15.7900948856911
+      },
+      "oxygen saturation": {
+        "mean": 96.93945756952783,
+        "median": 97.0,
+        "std": 3.189310883918747
+      },
+      "respiratory rate": {
+        "mean": 18.771481964535177,
+        "median": 18.0,
+        "std": 5.97318886684522
+      },
+      "systolic blood pressure": {
+        "mean": 121.29252808923488,
+        "median": 119.0,
+        "std": 21.284936349963743
+      },
+      "temperature": {
+        "mean": 37.0961713370261,
+        "median": 37.05557653639051,
+        "std": 0.8065203864416486
+      }
+    }
+  },
+  "age45_range15": {
+    "num_entries": 5164,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 66.8337313301065,
+        "median": 66.0,
+        "std": 14.243394228116813
+      },
+      "heart rate": {
+        "mean": 88.14609528841547,
+        "median": 87.0,
+        "std": 17.931293512789324
+      },
+      "mean blood pressure": {
+        "mean": 83.32730550355515,
+        "median": 82.0,
+        "std": 15.791066228005663
+      },
+      "oxygen saturation": {
+        "mean": 96.9009352484209,
+        "median": 97.0,
+        "std": 3.226861172606685
+      },
+      "respiratory rate": {
+        "mean": 18.79989116182939,
+        "median": 18.0,
+        "std": 5.9902158541767365
+      },
+      "systolic blood pressure": {
+        "mean": 121.38368429460066,
+        "median": 119.0,
+        "std": 21.429799306063785
+      },
+      "temperature": {
+        "mean": 37.09181182187402,
+        "median": 37.05557653639051,
+        "std": 0.8058685531255574
+      }
+    }
+  },
+  "age45_range5": {
+    "num_entries": 1487,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 67.224267789048,
+        "median": 66.0,
+        "std": 14.2520300274439
+      },
+      "heart rate": {
+        "mean": 88.6717229883212,
+        "median": 88.0,
+        "std": 18.089743551451775
+      },
+      "mean blood pressure": {
+        "mean": 83.78815415822193,
+        "median": 82.33329772949219,
+        "std": 15.793046711976094
+      },
+      "oxygen saturation": {
+        "mean": 96.9720415394584,
+        "median": 97.0,
+        "std": 3.245566214136617
+      },
+      "respiratory rate": {
+        "mean": 18.815972660343352,
+        "median": 18.0,
+        "std": 6.0375390056241995
+      },
+      "systolic blood pressure": {
+        "mean": 121.86567425644525,
+        "median": 120.0,
+        "std": 21.430866990699716
+      },
+      "temperature": {
+        "mean": 37.07443014085581,
+        "median": 37.05555555555556,
+        "std": 0.8012700631475483
+      }
+    }
+  },
+  "age55_range10": {
+    "num_entries": 5948,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 64.43456057162683,
+        "median": 63.0,
+        "std": 13.673218279311435
+      },
+      "heart rate": {
+        "mean": 86.00467960750764,
+        "median": 85.0,
+        "std": 16.92908137572127
+      },
+      "mean blood pressure": {
+        "mean": 81.57876269562563,
+        "median": 80.0,
+        "std": 15.564965718767082
+      },
+      "oxygen saturation": {
+        "mean": 96.73568038827473,
+        "median": 97.0,
+        "std": 3.3879002785256658
+      },
+      "respiratory rate": {
+        "mean": 18.64847959529929,
+        "median": 18.0,
+        "std": 5.692398767106815
+      },
+      "systolic blood pressure": {
+        "mean": 120.96305254414365,
+        "median": 118.0,
+        "std": 22.059700028099844
+      },
+      "temperature": {
+        "mean": 37.05242097765181,
+        "median": 37.05555555555556,
+        "std": 0.7826370690362614
+      }
+    }
+  },
+  "age55_range15": {
+    "num_entries": 8267,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 64.25743582744607,
+        "median": 63.0,
+        "std": 13.683846640251181
+      },
+      "heart rate": {
+        "mean": 86.00246321962493,
+        "median": 85.0,
+        "std": 16.908605498907153
+      },
+      "mean blood pressure": {
+        "mean": 81.44886939494174,
+        "median": 80.0,
+        "std": 15.530633013402921
+      },
+      "oxygen saturation": {
+        "mean": 96.7208630856193,
+        "median": 97.0,
+        "std": 3.416204713864872
+      },
+      "respiratory rate": {
+        "mean": 18.673220777353176,
+        "median": 18.0,
+        "std": 5.721394590498448
+      },
+      "systolic blood pressure": {
+        "mean": 120.87643718920016,
+        "median": 118.0,
+        "std": 22.082594213806356
+      },
+      "temperature": {
+        "mean": 37.048711198495006,
+        "median": 37.05555555555556,
+        "std": 0.7875733653617514
+      }
+    }
+  },
+  "age55_range5": {
+    "num_entries": 2311,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 64.54275893480379,
+        "median": 63.0,
+        "std": 13.661749480771245
+      },
+      "heart rate": {
+        "mean": 85.84266910280039,
+        "median": 85.0,
+        "std": 16.85328754371959
+      },
+      "mean blood pressure": {
+        "mean": 81.68080764575122,
+        "median": 80.0,
+        "std": 15.590691775911049
+      },
+      "oxygen saturation": {
+        "mean": 96.7250189293537,
+        "median": 97.0,
+        "std": 3.2824715650004195
+      },
+      "respiratory rate": {
+        "mean": 18.658657293745566,
+        "median": 18.0,
+        "std": 5.630976388957825
+      },
+      "systolic blood pressure": {
+        "mean": 120.9919735028214,
+        "median": 118.0,
+        "std": 22.12622925577324
+      },
+      "temperature": {
+        "mean": 37.06802409725093,
+        "median": 37.05557653639051,
+        "std": 0.7878299809041459
+      }
+    }
+  },
+  "baseline_nofilters": {
+    "num_entries": 34472,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 60.89111158054118,
+        "median": 59.5,
+        "std": 14.128353532926525
+      },
+      "heart rate": {
+        "mean": 84.97431349701164,
+        "median": 84.0,
+        "std": 17.271790524751584
+      },
+      "mean blood pressure": {
+        "mean": 79.37149914535148,
+        "median": 78.0,
+        "std": 15.486782662862968
+      },
+      "oxygen saturation": {
+        "mean": 96.7267126533164,
+        "median": 97.0,
+        "std": 3.591092430605616
+      },
+      "respiratory rate": {
+        "mean": 19.093327981752655,
+        "median": 19.0,
+        "std": 5.722042285575482
+      },
+      "systolic blood pressure": {
+        "mean": 121.82865530109937,
+        "median": 120.0,
+        "std": 21.994139127195883
+      },
+      "temperature": {
+        "mean": 36.978372793515014,
+        "median": 36.999999576144745,
+        "std": 0.7840019813287397
+      }
+    }
+  },
+  "baseline_nofilters_fast": {
+    "num_entries": 34472,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 60.89111158054118,
+        "median": 59.5,
+        "std": 14.128353532926525
+      },
+      "heart rate": {
+        "mean": 84.97431349701164,
+        "median": 84.0,
+        "std": 17.271790524751584
+      },
+      "mean blood pressure": {
+        "mean": 79.37149914535148,
+        "median": 78.0,
+        "std": 15.486782662862968
+      },
+      "oxygen saturation": {
+        "mean": 96.7267126533164,
+        "median": 97.0,
+        "std": 3.591092430605616
+      },
+      "respiratory rate": {
+        "mean": 19.093327981752655,
+        "median": 19.0,
+        "std": 5.722042285575482
+      },
+      "systolic blood pressure": {
+        "mean": 121.82865530109937,
+        "median": 120.0,
+        "std": 21.994139127195883
+      },
+      "temperature": {
+        "mean": 36.978372793515014,
+        "median": 36.999999576144745,
+        "std": 0.7840019813287397
+      }
+    }
+  },
+  "min18age": {
+    "num_entries": 34386,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 60.88658106144674,
+        "median": 59.5,
+        "std": 14.130431642985933
+      },
+      "heart rate": {
+        "mean": 84.95497946723451,
+        "median": 84.0,
+        "std": 17.260260567398404
+      },
+      "mean blood pressure": {
+        "mean": 79.36716905049931,
+        "median": 78.0,
+        "std": 15.489729122663796
+      },
+      "oxygen saturation": {
+        "mean": 96.72436587690363,
+        "median": 97.0,
+        "std": 3.589191350940573
+      },
+      "respiratory rate": {
+        "mean": 19.09403255972205,
+        "median": 19.0,
+        "std": 5.721418801947716
+      },
+      "systolic blood pressure": {
+        "mean": 121.82041844998552,
+        "median": 120.0,
+        "std": 22.001219544897346
+      },
+      "temperature": {
+        "mean": 36.97763102571436,
+        "median": 36.999999576144745,
+        "std": 0.783744955668998
+      }
+    }
+  },
+  "min48hr": {
+    "num_entries": 17013,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 60.80317334323372,
+        "median": 59.0,
+        "std": 14.11103737847846
+      },
+      "heart rate": {
+        "mean": 85.65438958504386,
+        "median": 84.0,
+        "std": 17.424023092009875
+      },
+      "mean blood pressure": {
+        "mean": 79.65976249309023,
+        "median": 78.0,
+        "std": 15.697252579282553
+      },
+      "oxygen saturation": {
+        "mean": 96.70696085829441,
+        "median": 97.0,
+        "std": 3.587403938970334
+      },
+      "respiratory rate": {
+        "mean": 19.31995764960999,
+        "median": 19.0,
+        "std": 5.844259656781038
+      },
+      "systolic blood pressure": {
+        "mean": 122.28670922948984,
+        "median": 120.0,
+        "std": 22.299686640641685
+      },
+      "temperature": {
+        "mean": 37.00311084394277,
+        "median": 36.999999576144745,
+        "std": 0.7894874292929562
+      }
+    }
+  },
+  "minperc5": {
+    "num_entries": 34472,
+    "variables": {
+      "diastolic blood pressure": {
+        "mean": 60.89111158054118,
+        "median": 59.5,
+        "std": 14.128353532926525
+      },
+      "heart rate": {
+        "mean": 84.97431349701164,
+        "median": 84.0,
+        "std": 17.271790524751584
+      },
+      "mean blood pressure": {
+        "mean": 79.37149914535148,
+        "median": 78.0,
+        "std": 15.486782662862968
+      },
+      "oxygen saturation": {
+        "mean": 96.7267126533164,
+        "median": 97.0,
+        "std": 3.591092430605616
+      },
+      "respiratory rate": {
+        "mean": 19.093327981752655,
+        "median": 19.0,
+        "std": 5.722042285575482
+      },
+      "systolic blood pressure": {
+        "mean": 121.82865530109937,
+        "median": 120.0,
+        "std": 21.994139127195883
+      },
+      "temperature": {
+        "mean": 36.978372793515014,
+        "median": 36.999999576144745,
+        "std": 0.7840019813287397
+      }
+    }
+  }
+}

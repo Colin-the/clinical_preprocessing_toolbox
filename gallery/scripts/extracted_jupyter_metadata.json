@@ -1,0 +1,1702 @@
+[
+  {
+    "id": "curated_mimic_iii_analysis_0000",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 10,
+    "output_index": 0,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0000.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0000_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0001",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 10,
+    "output_index": 1,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0001.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0001_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0002",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 10,
+    "output_index": 2,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0002.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0002_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0003",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 10,
+    "output_index": 3,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0003.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0003_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0004",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 10,
+    "output_index": 4,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0004.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0004_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0005",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 10,
+    "output_index": 5,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0005.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0005_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0006",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 10,
+    "output_index": 6,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0006.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0006_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0007",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 7,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0007.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0007_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0008",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 8,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0008.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0008_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0009",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 9,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0009.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0009_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0010",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 10,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0010.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0010_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0011",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 11,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0011.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0011_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0012",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 12,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0012.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0012_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0013",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 13,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0013.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0013_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0014",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 14,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0014.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0014_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0015",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 15,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0015.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0015_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0016",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 14,
+    "output_index": 16,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0016.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0016_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0017",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 16,
+    "output_index": 17,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0017.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0017_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0018",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 16,
+    "output_index": 18,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0018.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0018_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0019",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 16,
+    "output_index": 19,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0019.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0019_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0020",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 16,
+    "output_index": 20,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0020.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0020_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0021",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 16,
+    "output_index": 21,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0021.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0021_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0022",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 18,
+    "output_index": 22,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0022.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0022_thumb.png"
+  },
+  {
+    "id": "curated_mimic_iii_analysis_0023",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "curated_mimic_iii_analysis",
+    "cell_index": 18,
+    "output_index": 23,
+    "file": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/curated_mimic_iii_analysis_0023.png",
+    "thumb": "graphs/MIMIC_Extract/curated_mimic_iii_analysis/thumbs/curated_mimic_iii_analysis_0023_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0000",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 3,
+    "output_index": 0,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0000.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0000_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0001",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 5,
+    "output_index": 1,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0001.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0001_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0002",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 5,
+    "output_index": 2,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0002.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0002_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0003",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 5,
+    "output_index": 3,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0003.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0003_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0004",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 5,
+    "output_index": 4,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0004.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0004_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0005",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 5,
+    "output_index": 5,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0005.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0005_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0006",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 5,
+    "output_index": 6,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0006.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0006_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0007",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 5,
+    "output_index": 7,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0007.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0007_thumb.png"
+  },
+  {
+    "id": "experiment_statistics_0008",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "experiment_statistics",
+    "cell_index": 7,
+    "output_index": 8,
+    "file": "graphs/MIMIC_Extract/experiment_statistics/experiment_statistics_0008.png",
+    "thumb": "graphs/MIMIC_Extract/experiment_statistics/thumbs/experiment_statistics_0008_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0000",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 0,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0000.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0000_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0001",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 1,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0001.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0001_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0002",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 2,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0002.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0002_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0003",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 3,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0003.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0003_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0004",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 4,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0004.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0004_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0005",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 5,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0005.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0005_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0006",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 6,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0006.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0006_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0007",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 7,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0007.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0007_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0008",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 8,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0008.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0008_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0009",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 9,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0009.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0009_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0010",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 10,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0010.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0010_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0011",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 11,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0011.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0011_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0012",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 12,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0012.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0012_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0013",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 13,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0013.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0013_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0014",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 14,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0014.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0014_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0015",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 15,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0015.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0015_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0016",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 16,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0016.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0016_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0017",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 17,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0017.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0017_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0018",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 18,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0018.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0018_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0019",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 13,
+    "output_index": 19,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0019.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0019_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0020",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 20,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0020.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0020_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0021",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 21,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0021.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0021_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0022",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 22,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0022.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0022_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0023",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 23,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0023.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0023_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0024",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 24,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0024.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0024_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0025",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 25,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0025.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0025_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0026",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 26,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0026.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0026_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0027",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 27,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0027.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0027_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0028",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 28,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0028.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0028_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0029",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 29,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0029.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0029_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0030",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 30,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0030.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0030_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0031",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 31,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0031.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0031_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0032",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 32,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0032.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0032_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0033",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 33,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0033.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0033_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0034",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 34,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0034.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0034_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0035",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 35,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0035.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0035_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0036",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 36,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0036.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0036_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0037",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 37,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0037.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0037_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0038",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 38,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0038.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0038_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0039",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 19,
+    "output_index": 39,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0039.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0039_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0040",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 40,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0040.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0040_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0041",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 41,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0041.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0041_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0042",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 42,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0042.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0042_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0043",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 43,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0043.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0043_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0044",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 44,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0044.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0044_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0045",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 45,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0045.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0045_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0046",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 46,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0046.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0046_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0047",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 47,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0047.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0047_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0048",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 48,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0048.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0048_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0049",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 21,
+    "output_index": 49,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0049.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0049_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0050",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 50,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0050.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0050_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0051",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 51,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0051.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0051_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0052",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 52,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0052.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0052_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0053",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 53,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0053.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0053_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0054",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 54,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0054.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0054_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0055",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 55,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0055.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0055_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0056",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 56,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0056.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0056_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0057",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 57,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0057.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0057_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0058",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 58,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0058.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0058_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0059",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 59,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0059.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0059_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0060",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 60,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0060.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0060_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0061",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 61,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0061.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0061_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0062",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 62,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0062.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0062_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0063",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 63,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0063.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0063_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0064",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 64,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0064.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0064_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0065",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 65,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0065.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0065_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0066",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 66,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0066.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0066_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0067",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 67,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0067.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0067_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0068",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 68,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0068.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0068_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0069",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 69,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0069.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0069_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0070",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 70,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0070.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0070_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0071",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 71,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0071.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0071_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0072",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 72,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0072.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0072_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0073",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 73,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0073.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0073_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0074",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 74,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0074.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0074_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0075",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 75,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0075.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0075_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0076",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 76,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0076.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0076_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0077",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 77,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0077.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0077_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0078",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 78,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0078.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0078_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0079",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 79,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0079.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0079_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0080",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 80,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0080.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0080_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0081",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 81,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0081.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0081_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0082",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 82,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0082.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0082_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0083",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 83,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0083.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0083_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0084",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 84,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0084.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0084_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0085",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 85,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0085.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0085_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0086",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 86,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0086.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0086_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0087",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 87,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0087.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0087_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0088",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 88,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0088.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0088_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0089",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 89,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0089.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0089_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0090",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 90,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0090.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0090_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0091",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 91,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0091.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0091_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0092",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 92,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0092.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0092_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0093",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 93,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0093.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0093_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0094",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 94,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0094.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0094_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0095",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 95,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0095.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0095_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0096",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 96,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0096.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0096_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0097",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 97,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0097.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0097_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0098",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 98,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0098.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0098_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0099",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 99,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0099.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0099_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0100",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 100,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0100.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0100_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0101",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 101,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0101.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0101_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0102",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 102,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0102.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0102_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0103",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 103,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0103.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0103_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0104",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 104,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0104.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0104_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0105",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 105,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0105.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0105_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0106",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 106,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0106.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0106_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0107",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 107,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0107.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0107_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0108",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 108,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0108.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0108_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0109",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 23,
+    "output_index": 109,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0109.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0109_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0110",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 24,
+    "output_index": 110,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0110.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0110_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0111",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 24,
+    "output_index": 111,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0111.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0111_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0112",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 24,
+    "output_index": 112,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0112.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0112_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0113",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 24,
+    "output_index": 113,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0113.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0113_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0114",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 24,
+    "output_index": 114,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0114.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0114_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0115",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 26,
+    "output_index": 115,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0115.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0115_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0116",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 26,
+    "output_index": 116,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0116.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0116_thumb.png"
+  },
+  {
+    "id": "mimic_extract_analysis_0117",
+    "pipeline": "MIMIC_Extract",
+    "dataset": "mimic-iii",
+    "notebook": "mimic_extract_analysis",
+    "cell_index": 26,
+    "output_index": 117,
+    "file": "graphs/MIMIC_Extract/mimic_extract_analysis/mimic_extract_analysis_0117.png",
+    "thumb": "graphs/MIMIC_Extract/mimic_extract_analysis/thumbs/mimic_extract_analysis_0117_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0000",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 18,
+    "output_index": 0,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0000.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0000_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0001",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 18,
+    "output_index": 1,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0001.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0001_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0002",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 20,
+    "output_index": 2,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0002.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0002_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0003",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 22,
+    "output_index": 3,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0003.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0003_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0004",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 22,
+    "output_index": 4,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0004.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0004_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0005",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 22,
+    "output_index": 5,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0005.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0005_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0006",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 22,
+    "output_index": 6,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0006.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0006_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0007",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 22,
+    "output_index": 7,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0007.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0007_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0008",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 24,
+    "output_index": 8,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0008.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0008_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0009",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 25,
+    "output_index": 9,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0009.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0009_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0010",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 26,
+    "output_index": 10,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0010.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0010_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0011",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 28,
+    "output_index": 11,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0011.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0011_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0012",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 29,
+    "output_index": 12,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0012.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0012_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0013",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 31,
+    "output_index": 13,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0013.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0013_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0014",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 31,
+    "output_index": 14,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0014.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0014_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0015",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 31,
+    "output_index": 15,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0015.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0015_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0016",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 31,
+    "output_index": 16,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0016.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0016_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0017",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 31,
+    "output_index": 17,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0017.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0017_thumb.png"
+  },
+  {
+    "id": "pipeline_comparison_0018",
+    "pipeline": "Comparison",
+    "dataset": "mimic-iii",
+    "notebook": "pipeline_comparison",
+    "cell_index": 33,
+    "output_index": 18,
+    "file": "graphs/Comparison/pipeline_comparison/pipeline_comparison_0018.png",
+    "thumb": "graphs/Comparison/pipeline_comparison/thumbs/pipeline_comparison_0018_thumb.png"
+  }
+]

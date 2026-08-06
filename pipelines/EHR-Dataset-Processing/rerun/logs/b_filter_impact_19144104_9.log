@@ -1,0 +1,17 @@
+[maximum deviation/mortality] loading raw dataset ...
+[maximum deviation/mortality]   loaded heart rate (46,032 records, 4.8s)
+[maximum deviation/mortality]   loaded systolic blood pressure (46,032 records, 5.3s)
+[maximum deviation/mortality]   loaded diastolic blood pressure (46,032 records, 4.7s)
+[maximum deviation/mortality]   loaded mean blood pressure (46,032 records, 5.3s)
+[maximum deviation/mortality]   loaded respiration rate (46,032 records, 4.8s)
+[maximum deviation/mortality]   loaded temperature (46,032 records, 4.9s)
+[maximum deviation/mortality]   loaded oxygen saturation (46,032 records, 5.3s)
+[maximum deviation/mortality]   loaded fill missing data (46,032 records, 5.3s)
+[maximum deviation/mortality]   loaded long missing segment (367 records, 0.1s)
+[maximum deviation/mortality]   loaded long gap (251 records, 0.0s)
+[maximum deviation/mortality]   loaded high invalid data (0 records, 0.0s)
+[maximum deviation/mortality]   loaded all vitals (46,032 records, 4.1s)
+[maximum deviation/mortality] training 13 arms x 4 seeds ...
+[maximum deviation/mortality] done in 8.8 min
+[maximum deviation/mortality] wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/maximum deviation/mortality_filter_impact.pkl
+[maximum deviation/mortality] raw arm: cv=0.9039 test_acc=0.9029 train_f1=0.9818 test_f1=0.4961
