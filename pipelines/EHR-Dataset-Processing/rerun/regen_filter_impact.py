@@ -13,6 +13,7 @@ tests actually rest on.
 
     python regen_filter_impact.py "<aggregation method>" <icu|mortality>
 """
+import json
 import os
 import sys
 import time
@@ -64,21 +65,37 @@ def main() -> None:
     print(f"[{aggregation}/{label}] training {len(filtered) + 1} arms x "
           f"{len(RANDOM_SEEDS)} seeds ...", flush=True)
     t0 = time.time()
-    results = evaluate_filter_impact(
+    *results, diagnostics = evaluate_filter_impact(
         raw_dataset=raw_dataset,
         filtered_datasets=filtered,
         target_label=label,
         seeds=RANDOM_SEEDS,
+        return_diagnostics=True,
     )
+    results = tuple(results)
     print(f"[{aggregation}/{label}] done in {(time.time() - t0) / 60:.1f} min", flush=True)
 
     out_path = DATA_ROOT / aggregation / f"{label}_filter_impact.pkl"
     save_object(results, str(out_path))
     print(f"[{aggregation}/{label}] wrote {out_path}", flush=True)
 
+    # Sidecar rather than a sixth pickled element: the comparison notebook
+    # unpacks the pickle into exactly five names and would raise on six.
+    diagnostics_path = DATA_ROOT / aggregation / f"{label}_filter_impact_diagnostics.json"
+    with open(diagnostics_path, "w") as handle:
+        json.dump(diagnostics, handle, indent=2, sort_keys=True)
+    print(f"[{aggregation}/{label}] wrote {diagnostics_path}", flush=True)
+
     cv, test_acc, train_f1, test_f1, _ = results
+    raw_diagnostics = diagnostics['raw']
     print(f"[{aggregation}/{label}] raw arm: cv={cv[0]:.4f} test_acc={test_acc[0]:.4f} "
           f"train_f1={train_f1[0]:.4f} test_f1={test_f1[0]:.4f}", flush=True)
+    print(f"[{aggregation}/{label}] raw arm splits: "
+          f"n_train={raw_diagnostics['n_train']:,} n_val={raw_diagnostics['n_validation']:,} "
+          f"n_test={raw_diagnostics['n_test']:,} "
+          f"val_prev={raw_diagnostics['validation_prevalence']:.4f} "
+          f"test_prev={raw_diagnostics['test_prevalence']:.4f} "
+          f"thresholds={ {s: round(t, 4) for s, t in raw_diagnostics['thresholds'].items()} }", flush=True)
     if train_f1 == test_f1:
         print(f"[{aggregation}/{label}] WARNING: train and test F1 identical — "
               f"the fix did not take effect", flush=True)

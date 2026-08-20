@@ -1,0 +1,97 @@
+verify_cv — aggregation='mean' label='mortality'
+
+1. partition primitives
+partition_manager self-check
+  PASS  shape — (4, 46032)
+  PASS  folds partition the cohort exactly
+  PASS  max fold prevalence drift < 0.005 — 0.00006
+  PASS  repeats are independent partitions (pairwise agreement ~1/5, not 1.0) — max pairwise agreement 0.203
+  PASS  rebuild is byte-identical
+  PASS  projection preserves each record's fold
+  PASS  projection rejects unknown ids
+  PASS  inner split is disjoint
+  PASS  inner split covers the training set
+  PASS  inner validation is ~1/8 of training — 0.1250
+  PASS  forest seeds are distinct
+  PASS  fingerprint is stable
+  PASS  fingerprint separates cohorts
+OK
+  PASS  partition_manager self-check
+
+2. record identity
+  PASS  raw ids are unique — 46,032
+  PASS  raw: record count — 46,032 vs expected 46,032
+  PASS  long missing segment: record count — 31,029 vs expected 31,029
+  PASS  long gap: record count — 20,323 vs expected 20,323
+  PASS  high invalid data: record count — 1,369 vs expected 1,369
+  PASS  raw: ids are an ordered subsequence of raw — n=46,032
+  PASS  heart rate: ids are an ordered subsequence of raw — n=46,032
+  PASS  systolic blood pressure: ids are an ordered subsequence of raw — n=46,032
+  PASS  diastolic blood pressure: ids are an ordered subsequence of raw — n=46,032
+  PASS  mean blood pressure: ids are an ordered subsequence of raw — n=46,032
+  PASS  respiration rate: ids are an ordered subsequence of raw — n=46,032
+  PASS  temperature: ids are an ordered subsequence of raw — n=46,032
+  PASS  oxygen saturation: ids are an ordered subsequence of raw — n=46,032
+  PASS  fill missing data: ids are an ordered subsequence of raw — n=46,032
+  PASS  long missing segment: ids are an ordered subsequence of raw — n=31,029
+  PASS  long gap: ids are an ordered subsequence of raw — n=20,323
+  PASS  high invalid data: ids are an ordered subsequence of raw — n=1,369
+  PASS  all vitals: ids are an ordered subsequence of raw — n=46,032
+  PASS  raw: id count matches tensor count
+  PASS  heart rate: id count matches tensor count
+  PASS  systolic blood pressure: id count matches tensor count
+  PASS  diastolic blood pressure: id count matches tensor count
+  PASS  mean blood pressure: id count matches tensor count
+  PASS  respiration rate: id count matches tensor count
+  PASS  temperature: id count matches tensor count
+  PASS  oxygen saturation: id count matches tensor count
+  PASS  fill missing data: id count matches tensor count
+  PASS  long missing segment: id count matches tensor count
+  PASS  long gap: id count matches tensor count
+  PASS  high invalid data: id count matches tensor count
+  PASS  all vitals: id count matches tensor count
+
+3. fold inheritance
+  PASS  raw: projected shape — (4, 46032)
+  PASS  raw: inherits raw's folds exactly
+  PASS  heart rate: projected shape — (4, 46032)
+  PASS  heart rate: inherits raw's folds exactly
+  PASS  systolic blood pressure: projected shape — (4, 46032)
+  PASS  systolic blood pressure: inherits raw's folds exactly
+  PASS  diastolic blood pressure: projected shape — (4, 46032)
+  PASS  diastolic blood pressure: inherits raw's folds exactly
+  PASS  mean blood pressure: projected shape — (4, 46032)
+  PASS  mean blood pressure: inherits raw's folds exactly
+  PASS  respiration rate: projected shape — (4, 46032)
+  PASS  respiration rate: inherits raw's folds exactly
+  PASS  temperature: projected shape — (4, 46032)
+  PASS  temperature: inherits raw's folds exactly
+  PASS  oxygen saturation: projected shape — (4, 46032)
+  PASS  oxygen saturation: inherits raw's folds exactly
+  PASS  fill missing data: projected shape — (4, 46032)
+  PASS  fill missing data: inherits raw's folds exactly
+  PASS  long missing segment: projected shape — (4, 31029)
+  PASS  long missing segment: inherits raw's folds exactly
+  PASS  long gap: projected shape — (4, 20323)
+  PASS  long gap: inherits raw's folds exactly
+  PASS  high invalid data: projected shape — (4, 1369)
+  PASS  high invalid data: inherits raw's folds exactly
+  PASS  all vitals: projected shape — (4, 46032)
+  PASS  all vitals: inherits raw's folds exactly
+
+4. out-of-fold coverage and pairing (raw arm, real fit)
+  PASS  every raw record covered out-of-fold — coverage=1.0000
+  PASS  one prediction per record per repeat
+  PASS  folds fitted — 20
+  PASS  raw vs raw: no discordance — n01=0 n10=0
+  PASS  raw vs raw: p = 1 — p=1.0
+  PASS  raw vs raw: pairs the whole cohort — 46,032
+  PASS  high invalid data: pairs on the intersection, not by truncation — n_paired=1,369 of 1,369 held
+
+5. leakage probe (shuffled labels)
+  PASS  shuffled-label AUC collapses to chance — auc=0.5090
+
+6. stage F artifacts
+  SKIP  mortality_filter_impact_cv_diagnostics.json not written yet
+
+OK — all checks passed

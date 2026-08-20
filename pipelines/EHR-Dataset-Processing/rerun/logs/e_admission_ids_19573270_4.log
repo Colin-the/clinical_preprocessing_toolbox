@@ -1,0 +1,19 @@
+[maximum deviation] loading processed records ...
+[maximum deviation] 46,032 records in 11.7s
+[maximum deviation] aggregating once for the record-dropping arms ...
+[maximum deviation] aggregated in 198.6s
+[maximum deviation] raw: 46,032 ids -> raw_admission_ids.npy (2.8s)
+[maximum deviation] heart rate: 46,032 ids -> heart_rate_admission_ids.npy (2.7s)
+[maximum deviation] systolic blood pressure: 46,032 ids -> systolic_blood_pressure_admission_ids.npy (2.8s)
+[maximum deviation] diastolic blood pressure: 46,032 ids -> diastolic_blood_pressure_admission_ids.npy (4.3s)
+[maximum deviation] mean blood pressure: 46,032 ids -> mean_blood_pressure_admission_ids.npy (2.8s)
+[maximum deviation] respiration rate: 46,032 ids -> respiration_rate_admission_ids.npy (2.8s)
+[maximum deviation] temperature: 46,032 ids -> temperature_admission_ids.npy (2.8s)
+[maximum deviation] oxygen saturation: 46,032 ids -> oxygen_saturation_admission_ids.npy (2.8s)
+[maximum deviation] fill missing data: 46,032 ids -> fill_missing_data_admission_ids.npy (4.1s)
+[maximum deviation] long missing segment: 367 ids -> long_missing_segment_admission_ids.npy (27.6s)
+[maximum deviation] long gap: 251 ids -> long_gap_admission_ids.npy (29.0s)
+[maximum deviation] high invalid data: 0 ids -> high_invalid_data_admission_ids.npy (6.0s)
+[maximum deviation] all vitals: 46,032 ids -> all_vitals_admission_ids.npy (4.4s)
+
+[maximum deviation] wrote 13 id vectors, all validated against their cached pickles.

@@ -17,12 +17,16 @@ from cuml.ensemble import RandomForestClassifier
 from cuml.metrics import accuracy_score
 from cuml.model_selection import KFold
 from scipy.stats import mode
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, roc_curve
 from statsmodels.stats.contingency_tables import mcnemar
 from tqdm.notebook import tqdm
 from tabulate import tabulate
 from Entities.ehr_dataset import DatasetEHR
 from Managers.dataset_manager import flatten_subset_to_cupy
+from Managers.partition_manager import (
+    N_SPLITS, build_fold_assignment, fingerprint, fold_prevalences,
+    forest_seed, inner_split, project_to_arm,
+)
 
 
 
@@ -56,19 +60,88 @@ def cross_validate_model(timeseries: cp.ndarray, labels: cp.ndarray, seed: int, 
     return float(cp.mean(cp.array(fold_scores)))
 
 
-def evaluate_dataset_label_impact(dataset: Any, label_index: int, seed: int) -> Tuple[float, float, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+def pick_threshold(y_validation: np.ndarray, scores: np.ndarray) -> float:
+    """Choose a decision threshold by maximising Youden's J on validation.
+
+    Youden's J (equivalently balanced accuracy) weights sensitivity and
+    specificity equally, so unlike the implicit 0.5 it doesn't hand the decision
+    to the majority class — which matters here, where mortality prevalence is
+    under 15% and a 0.5 threshold buys accuracy by predicting almost nothing
+    positive.
+
+    Selected on validation only. Never on test, never on training, so the
+    reported operating point is honest.
+
+    Falls back to 0.5 when validation is empty or single-class. That isn't
+    hypothetical: the split is unstratified, and an aggressive arm like
+    'high invalid data' keeps a small enough fraction of records that its 10%
+    validation subset can contain no positives at all. 0.5 reproduces the old
+    behaviour rather than raising.
+    """
+    if y_validation.size == 0:
+        return 0.5
+    positives = int(y_validation.sum())
+    if positives == 0 or positives == y_validation.size:
+        return 0.5
+
+    false_positive_rate, true_positive_rate, thresholds = roc_curve(y_validation, scores)
+    youden = true_positive_rate - false_positive_rate
+    threshold = thresholds[int(np.argmax(youden))]
+
+    # roc_curve's first threshold is +inf by construction; guard against picking it.
+    if not np.isfinite(threshold):
+        finite = thresholds[np.isfinite(thresholds)]
+        threshold = float(finite.max()) if finite.size else 0.5
+
+    return float(threshold)
+
+
+def _positive_scores(model: Any, features: cp.ndarray) -> np.ndarray:
+    """P(class = 1) as a host-side numpy vector.
+
+    predict_proba's columns follow model.classes_, so the positive class isn't
+    unconditionally column 1 — an arm whose training split happens to be
+    single-class has only one column. Resolved by looking classes_ up rather
+    than assuming.
+
+    cuML returns device arrays and roc_curve/f1_score are host-side, so
+    everything comes back through cp.asnumpy here rather than at each call site.
+    """
+    if features.size == 0:
+        return np.array([])
+
+    probabilities = np.asarray(cp.asnumpy(model.predict_proba(features)))
+    classes = np.asarray(cp.asnumpy(model.classes_)).astype(int).tolist()
+
+    if 1 not in classes:
+        # Training split saw only one class; it was the negative one.
+        return np.zeros(probabilities.shape[0])
+
+    return probabilities[:, classes.index(1)]
+
+
+def evaluate_dataset_label_impact(dataset: Any, label_index: int, seed: int) -> Tuple[float, float, np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, Dict[str, float]]:
     """Train one forest on one dataset and report CV score, test score, and
     predictions on both splits.
 
-    Splits 80/10/10 but then glues validation onto test, giving an effective
-    80/20. There's no hyperparameter tuning here — nothing ever looks at the
-    validation set on its own — so holding it out separately would just throw
-    away 10% of the evaluation sample and make the McNemar comparisons noisier.
+    Splits 80/10/10 and keeps all three parts separate. Validation is never
+    scored as test data and never trained on — its one job is to choose the
+    decision threshold (see pick_threshold), which is then applied unchanged to
+    the training and test splits. Test is therefore a true held-out 10%.
+
+    This used to concatenate validation onto test for an effective 80/20, on the
+    reasoning that nothing looked at validation on its own so holding it out
+    only cost evaluation sample. That reasoning no longer applies now that the
+    threshold is selected on it, and the merge made the operating point
+    unchoosable. The cost is real though: test is half the size it was, so test
+    metrics and the McNemar comparisons are noisier than in pre-2026-08-10
+    results.
 
     Returns (cv_score, test_score, test_predictions, test_labels,
-    train_predictions, train_labels). The training-split predictions exist so
-    the caller can compute a training F1; expect them to look overfit — a
-    random forest scores near-perfectly on its own training data.
+    train_predictions, train_labels, threshold, diagnostics). The training-split
+    predictions exist so the caller can compute a training F1; expect them to
+    look overfit — a random forest scores near-perfectly on its own training
+    data.
 
     Predictions come back as numpy because that's what McNemar and sklearn's F1
     need downstream.
@@ -76,28 +149,54 @@ def evaluate_dataset_label_impact(dataset: Any, label_index: int, seed: int) -> 
     train_sub, val_sub, test_sub = dataset.split(0.8, 0.1, 0.1)
 
     x_train, y_train = flatten_subset_to_cupy(train_sub, label_index)
-    x_test_part, y_test_part = flatten_subset_to_cupy(test_sub, label_index)
-    x_validation_part, y_validation_part = flatten_subset_to_cupy(val_sub, label_index)
+    x_test, y_test = flatten_subset_to_cupy(test_sub, label_index)
+    x_validation, y_validation = flatten_subset_to_cupy(val_sub, label_index)
 
-    if x_test_part.size > 0:
-        x_test = cp.vstack([x_test_part, x_validation_part])
-        y_test = cp.concatenate([y_test_part, y_validation_part])
-    else:
-        x_test = x_test_part
-        y_test = y_test_part
+    y_train_host = cp.asnumpy(y_train).astype(int) if y_train.size else np.array([], dtype=int)
+    y_test_host = cp.asnumpy(y_test).astype(int) if y_test.size else np.array([], dtype=int)
+    y_validation_host = cp.asnumpy(y_validation).astype(int) if y_validation.size else np.array([], dtype=int)
+
+    diagnostics = {
+        'n_train': int(y_train_host.size),
+        'n_validation': int(y_validation_host.size),
+        'n_test': int(y_test_host.size),
+        'validation_prevalence': float(y_validation_host.mean()) if y_validation_host.size else float('nan'),
+        'test_prevalence': float(y_test_host.mean()) if y_test_host.size else float('nan'),
+    }
 
     if x_train.size == 0 or x_test.size == 0:
-        return 0.0, 0.0, np.zeros(len(y_test)), cp.asnumpy(y_test), np.zeros(len(y_train)), cp.asnumpy(y_train)
+        diagnostics.update({'threshold': 0.5, 'validation_accuracy': float('nan'),
+                            'validation_f1_macro': float('nan'), 'test_positive_rate': float('nan')})
+        return (0.0, 0.0, np.zeros(len(y_test_host)), y_test_host,
+                np.zeros(len(y_train_host)), y_train_host, 0.5, diagnostics)
 
     cross_validation_score = cross_validate_model(x_train, y_train, seed)
 
     final_model = RandomForestClassifier(n_estimators=300, random_state=seed)
     final_model.fit(x_train, y_train)
-    test_predictions = final_model.predict(x_test)
-    test_score = accuracy_score(y_test, test_predictions)
-    train_predictions = final_model.predict(x_train)
 
-    return cross_validation_score, test_score, cp.asnumpy(test_predictions), cp.asnumpy(y_test), cp.asnumpy(train_predictions), cp.asnumpy(y_train)
+    validation_scores = _positive_scores(final_model, x_validation)
+    threshold = pick_threshold(y_validation_host, validation_scores)
+
+    # Both splits are thresholded at the same validation-selected operating
+    # point, rather than going through .predict()'s implicit 0.5, so the
+    # training F1 and the test F1 describe the same classifier.
+    test_predictions = (_positive_scores(final_model, x_test) >= threshold).astype(int)
+    train_predictions = (_positive_scores(final_model, x_train) >= threshold).astype(int)
+    test_score = float(np.mean(test_predictions == y_test_host))
+
+    validation_predictions = (validation_scores >= threshold).astype(int)
+    diagnostics.update({
+        'threshold': float(threshold),
+        'validation_accuracy': (float(np.mean(validation_predictions == y_validation_host))
+                                if y_validation_host.size else float('nan')),
+        'validation_f1_macro': (float(f1_score(y_validation_host, validation_predictions, average='macro'))
+                                if y_validation_host.size else float('nan')),
+        'test_positive_rate': float(test_predictions.mean()),
+    })
+
+    return (cross_validation_score, test_score, test_predictions, y_test_host,
+            train_predictions, y_train_host, float(threshold), diagnostics)
 
 
 def calculate_mcnemar_test(baseline_predictions: List[np.ndarray], filtered_predictions: List[np.ndarray]) -> Tuple[float, float]:
@@ -136,17 +235,29 @@ def calculate_mcnemar_test(baseline_predictions: List[np.ndarray], filtered_pred
 
 
 def evaluate_filter_impact(raw_dataset: DatasetEHR, filtered_datasets: Dict[str, DatasetEHR], target_label: str,
-                           seeds: List[int]) -> tuple[list[Any], list[Any], list[Any], list[Any], list[Any]]:
+                           seeds: List[int], return_diagnostics: bool = False) -> tuple:
     """Score every filtered dataset against the unfiltered baseline.
 
     Returns five parallel lists, all indexed the same way with 'raw' at position
     0 — the plotting code relies on that and slices [1:] to drop the
     baseline-vs-itself comparison.
 
+    The five-list shape is load-bearing and must not grow: the cross-pipeline
+    comparison notebook unpacks the pickled result with a strict
+    `_acc, _f1, _auc, _, _mnm = pickle.load(...)`, which raises on six. Hence
+    `return_diagnostics`, off by default — set it and you get a sixth element,
+    a per-arm dict of thresholds and split sizes, without changing what the
+    cached pickles look like.
+
     Careful with the return values: `training_averages` is the cross-validation
     score, not training accuracy. `training_f1s` is scored on the training split
     itself, so expect it near 1.0 — a random forest memorises its training data;
     it's there to show overfit headroom, not model quality.
+
+    Since 2026-08-10 the test metrics are on a true held-out 10% and use a
+    threshold chosen on the validation split, not the implicit 0.5. Absolute
+    scores are therefore not comparable to results cached before that date;
+    within-run filter-vs-raw deltas are.
     """
     label_index = raw_dataset.label_index_map[target_label]
 
@@ -156,6 +267,11 @@ def evaluate_filter_impact(raw_dataset: DatasetEHR, filtered_datasets: Dict[str,
     # Seeding torch per seed *before* the inner loop is what makes the comparison
     # fair: every dataset gets the identical train/test split for a given seed,
     # so differences come from the filter rather than from the shuffle.
+    #
+    # Worth knowing, now that the threshold is selected on validation: DatasetEHR.split
+    # caches on split_weights, so the second and later seeds reuse the partition the
+    # first one drew. Every seed therefore picks its threshold on the *same* validation
+    # records, and only the forest's own randomness varies across seeds.
     raw_results = {name: [] for name in ordered_names}
     for seed in seeds:
         torch.manual_seed(seed)
@@ -189,7 +305,423 @@ def evaluate_filter_impact(raw_dataset: DatasetEHR, filtered_datasets: Dict[str,
         stat, p_val = calculate_mcnemar_test(baseline_preds, current_preds)
         mcnemar_results.append((stat, p_val))
 
-    return training_averages, testing_averages, training_f1s, testing_f1s, mcnemar_results
+    results = (training_averages, testing_averages, training_f1s, testing_f1s, mcnemar_results)
+
+    if not return_diagnostics:
+        return results
+
+    diagnostics = {}
+    for name in ordered_names:
+        trials = raw_results[name]
+        # Split sizes are identical across seeds (the split is cached), so the
+        # first trial's are representative; thresholds are not, so keep them all.
+        per_seed = [t[7] for t in trials]
+        diagnostics[name] = {
+            'thresholds': {seed: t[6] for seed, t in zip(seeds, trials)},
+            'n_train': per_seed[0]['n_train'],
+            'n_validation': per_seed[0]['n_validation'],
+            'n_test': per_seed[0]['n_test'],
+            'validation_prevalence': per_seed[0]['validation_prevalence'],
+            'test_prevalence': per_seed[0]['test_prevalence'],
+            'validation_accuracy': float(np.mean([d['validation_accuracy'] for d in per_seed])),
+            'validation_f1_macro': float(np.mean([d['validation_f1_macro'] for d in per_seed])),
+            'test_positive_rate': float(np.mean([d['test_positive_rate'] for d in per_seed])),
+        }
+
+    return results + (diagnostics,)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-validated evaluation (2026-08-11)
+#
+# Everything above scores a single fixed 10% holdout. Everything below scores
+# every record out-of-fold under four independent stratified partitions, and
+# pairs arms on admission_id so McNemar is actually a paired test. The two paths
+# coexist on purpose: the legacy one keeps the pre-2026-08-11 pickles and figures
+# reproducible, and its results are NOT comparable to these.
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def _mean_of_finite(values: List[float]) -> float:
+    """Mean over the finite entries, NaN if there are none.
+
+    A degenerate arm produces all-NaN metric lists, and np.nanmean warns once per
+    call on those — enough noise in a 13-arm sweep to bury the real output.
+    """
+    finite = [v for v in values if np.isfinite(v)]
+    return float(np.mean(finite)) if finite else float('nan')
+
+
+def _std_of_finite(values: List[float]) -> float:
+    finite = [v for v in values if np.isfinite(v)]
+    return float(np.std(finite)) if finite else float('nan')
+
+
+def _flatten_whole_dataset(dataset: Any, label_index: int) -> Tuple[Any, np.ndarray]:
+    """Flatten an entire dataset once, rather than per fold.
+
+    The legacy path re-flattens for every split of every seed. With 20 fits per
+    arm that is 20 redundant passes over ~46k records, and flattening is not
+    free — it walks the record list building a 168-vector each. Doing it once and
+    indexing rows is the single biggest saving in the CV path.
+    """
+    subset = torch.utils.data.Subset(dataset, list(range(len(dataset.data))))
+    features, labels = flatten_subset_to_cupy(subset, label_index)
+    if features.size == 0:
+        return features, np.array([], dtype=int)
+    return features, cp.asnumpy(labels).astype(int)
+
+
+def evaluate_dataset_label_cv(
+    dataset: Any,
+    admission_ids: np.ndarray,
+    label_index: int,
+    fold_assignment: np.ndarray,
+) -> Dict[str, Any]:
+    """Repeated stratified k-fold with out-of-fold predictions for one arm.
+
+    `fold_assignment` is (n_repeats, n_records), inherited from the raw cohort by
+    partition_manager.project_to_arm — this function never draws a partition of
+    its own, which is what keeps every arm scored on the same patients.
+
+    Per outer fold: hold the fold out, split the remaining 80% stratified into
+    fit (7/8) and inner-validation (1/8), fit one forest, choose the threshold on
+    inner-validation with the existing `pick_threshold` (Youden's J, unchanged),
+    and apply it to the held-out fold. The threshold is never chosen on data it
+    is then scored against.
+
+    Combining repeats averages the out-of-fold *scores* and thresholds them once,
+    rather than majority-voting labels. Voting was what the legacy path did, and
+    with an even number of trials `scipy.stats.mode` breaks ties toward the
+    smaller label — a silent bias toward the negative class on a 10%-prevalence
+    problem. Averaging has no tie to break.
+
+    Records whose fold could not be fitted (an aggressive arm can empty one) keep
+    a NaN score and are excluded from every metric; `coverage` reports how many.
+    """
+    n_records = len(dataset.data)
+    admission_ids = np.asarray(admission_ids, dtype=np.int64)
+
+    if n_records != len(admission_ids):
+        raise ValueError(
+            f"{n_records:,} records against {len(admission_ids):,} admission ids"
+        )
+
+    n_repeats = fold_assignment.shape[0]
+    features, labels = _flatten_whole_dataset(dataset, label_index)
+
+    oof_scores = np.full((n_repeats, n_records), np.nan, dtype=np.float64)
+    oof_predictions = np.full((n_repeats, n_records), -1, dtype=np.int8)
+    thresholds: Dict[str, float] = {}
+    train_accuracies: List[float] = []
+    train_f1s: List[float] = []
+
+    # No early return for the empty-arm case. `high invalid data` genuinely keeps
+    # zero records under the three deviation aggregations, and a special-cased
+    # return here shipped a diagnostics dict with a different key set than the
+    # normal path — which the caller then indexed into and died on. The loops and
+    # reducers below all handle n_records == 0 on their own, so letting the empty
+    # arm walk the same path is both shorter and impossible to drift.
+
+    for repeat in range(n_repeats):
+        for fold in range(N_SPLITS):
+            test_positions = np.where(fold_assignment[repeat] == fold)[0]
+            train_positions = np.where(fold_assignment[repeat] != fold)[0]
+
+            if test_positions.size == 0 or train_positions.size == 0:
+                continue
+
+            seed = forest_seed(repeat, fold)
+            fit_positions, validation_positions = inner_split(train_positions, labels, seed)
+
+            y_fit = labels[fit_positions]
+            if fit_positions.size == 0 or len(np.unique(y_fit)) < 2:
+                # Single-class fit split: a forest trained on it predicts one
+                # class for everything and the threshold is meaningless. Leave
+                # the fold uncovered rather than emitting a fake prediction.
+                continue
+
+            model = RandomForestClassifier(n_estimators=300, random_state=seed)
+            model.fit(features[cp.asarray(fit_positions)], cp.asarray(y_fit))
+
+            if validation_positions.size:
+                validation_scores = _positive_scores(
+                    model, features[cp.asarray(validation_positions)]
+                )
+                threshold = pick_threshold(labels[validation_positions], validation_scores)
+            else:
+                threshold = 0.5
+
+            test_scores = _positive_scores(model, features[cp.asarray(test_positions)])
+            oof_scores[repeat, test_positions] = test_scores
+            oof_predictions[repeat, test_positions] = (test_scores >= threshold).astype(np.int8)
+            thresholds[f"r{repeat}f{fold}"] = float(threshold)
+
+            fit_scores = _positive_scores(model, features[cp.asarray(fit_positions)])
+            fit_predictions = (fit_scores >= threshold).astype(int)
+            train_accuracies.append(float(np.mean(fit_predictions == y_fit)))
+            train_f1s.append(float(f1_score(y_fit, fit_predictions, average='macro')))
+
+    # Per-repeat metrics over that repeat's full out-of-fold vector. The spread
+    # across these is the honest error bar: four independent partitions, not four
+    # forests on one partition.
+    per_repeat = []
+    for repeat in range(n_repeats):
+        covered = oof_predictions[repeat] >= 0
+        if not covered.any():
+            per_repeat.append({'accuracy': float('nan'), 'f1_macro': float('nan'), 'n': 0})
+            continue
+        y_true = labels[covered]
+        y_pred = oof_predictions[repeat][covered]
+        per_repeat.append({
+            'accuracy': float(np.mean(y_pred == y_true)),
+            'f1_macro': float(f1_score(y_true, y_pred, average='macro')),
+            'n': int(covered.sum()),
+        })
+
+    # Explicit mask rather than a bare nanmean: an arm can leave records with no
+    # score at all, and np.nanmean on an all-NaN row warns per row — thousands of
+    # lines in a job log for a degenerate arm.
+    covered_mask = ~np.isnan(oof_scores)
+    covered_count = covered_mask.sum(axis=0)
+    consensus_scores = np.full(n_records, np.nan, dtype=np.float64)
+    has_any = covered_count > 0
+    consensus_scores[has_any] = (
+        np.nansum(oof_scores[:, has_any], axis=0) / covered_count[has_any]
+    )
+    mean_threshold = float(np.mean(list(thresholds.values()))) if thresholds else 0.5
+    consensus_covered = ~np.isnan(consensus_scores)
+    consensus_predictions = np.full(n_records, -1, dtype=np.int8)
+    consensus_predictions[consensus_covered] = (
+        consensus_scores[consensus_covered] >= mean_threshold
+    ).astype(np.int8)
+
+    diagnostics = {
+        'n_records': int(n_records),
+        'coverage': float(np.mean(consensus_covered)) if n_records else 0.0,
+        'n_folds_fitted': len(thresholds),
+        'mean_threshold': mean_threshold,
+        'accuracy_mean': _mean_of_finite([r['accuracy'] for r in per_repeat]),
+        'accuracy_std': _std_of_finite([r['accuracy'] for r in per_repeat]),
+        'f1_macro_mean': _mean_of_finite([r['f1_macro'] for r in per_repeat]),
+        'f1_macro_std': _std_of_finite([r['f1_macro'] for r in per_repeat]),
+        'predicted_positive_rate': (
+            float(np.mean(consensus_predictions[consensus_covered]))
+            if consensus_covered.any() else float('nan')
+        ),
+        'degenerate': not bool(thresholds),
+    }
+    diagnostics.update(fold_prevalences(fold_assignment, labels))
+
+    return {
+        'admission_ids': admission_ids,
+        'y': labels,
+        'oof_scores': oof_scores,
+        'oof_predictions': oof_predictions,
+        'consensus_scores': consensus_scores,
+        'consensus_predictions': consensus_predictions,
+        'per_repeat': per_repeat,
+        'thresholds': thresholds,
+        'train_accuracy': float(np.mean(train_accuracies)) if train_accuracies else float('nan'),
+        'train_f1_macro': float(np.mean(train_f1s)) if train_f1s else float('nan'),
+        'diagnostics': diagnostics,
+    }
+
+
+def calculate_mcnemar_paired(
+    baseline_predictions: np.ndarray,
+    baseline_ids: np.ndarray,
+    arm_predictions: np.ndarray,
+    arm_ids: np.ndarray,
+    labels_by_id: Dict[int, int],
+) -> Tuple[float, float, Dict[str, Any]]:
+    """McNemar over the records both arms actually hold, scored against truth.
+
+    Two things this fixes in `calculate_mcnemar_test`:
+
+    1. **It pairs.** The old version zipped two prediction vectors positionally.
+       For a record-dropping arm those vectors are different lengths *and*
+       different patients, and `zip` truncated to the shorter without a word —
+       `high invalid data` contributed 138 unrelated pairs against raw's 4,604.
+       Here both vectors are aligned to the sorted intersection of their
+       admission ids, and a length disagreement raises.
+    2. **Ground truth enters.** The old table was
+       `table[baseline_prediction, arm_prediction]`, which measures whether the
+       two models *disagree*, not whether either is *right* — it cannot tell a
+       filter that helped from one that hurt. This tabulates correctness, which
+       is what "did the filter improve the classifier" needs. Same formulation as
+       `mcnemar_counts` in comparison/pipeline_comparison.ipynb and
+       hour_scaling_experiment/v2/metrics.py:189.
+
+    Because the CV path gives the baseline out-of-fold coverage of the whole
+    cohort, its prediction already exists for every record any arm retains — no
+    replaying the baseline model on the arm's records is needed.
+
+    Returns (statistic, pvalue, detail). A pair count of zero yields
+    (nan, nan) and a flag rather than the old silent all-zero table.
+    """
+    baseline_ids = np.asarray(baseline_ids, dtype=np.int64)
+    arm_ids = np.asarray(arm_ids, dtype=np.int64)
+
+    # Only records both arms actually predicted (coverage gaps are marked -1).
+    baseline_ok = np.asarray(baseline_predictions) >= 0
+    arm_ok = np.asarray(arm_predictions) >= 0
+
+    shared = np.intersect1d(baseline_ids[baseline_ok], arm_ids[arm_ok])
+    detail = {'n_paired': int(shared.size), 'n01': 0, 'n10': 0, 'degenerate': False}
+
+    if shared.size == 0:
+        detail['degenerate'] = True
+        return float('nan'), float('nan'), detail
+
+    baseline_lookup = {int(i): p for i, p in zip(baseline_ids, baseline_predictions)}
+    arm_lookup = {int(i): p for i, p in zip(arm_ids, arm_predictions)}
+
+    y_true = np.array([labels_by_id[int(i)] for i in shared], dtype=int)
+    baseline_aligned = np.array([baseline_lookup[int(i)] for i in shared], dtype=int)
+    arm_aligned = np.array([arm_lookup[int(i)] for i in shared], dtype=int)
+
+    if not (len(y_true) == len(baseline_aligned) == len(arm_aligned)):
+        raise ValueError(
+            f"unpaired vectors after alignment: {len(y_true)}/"
+            f"{len(baseline_aligned)}/{len(arm_aligned)}"
+        )
+
+    baseline_correct = baseline_aligned == y_true
+    arm_correct = arm_aligned == y_true
+
+    n01 = int(np.sum(~baseline_correct & arm_correct))   # arm fixed it
+    n10 = int(np.sum(baseline_correct & ~arm_correct))   # arm broke it
+    detail.update({
+        'n01': n01, 'n10': n10,
+        'n_both_correct': int(np.sum(baseline_correct & arm_correct)),
+        'n_both_wrong': int(np.sum(~baseline_correct & ~arm_correct)),
+        'baseline_accuracy_on_paired': float(np.mean(baseline_correct)),
+        'arm_accuracy_on_paired': float(np.mean(arm_correct)),
+    })
+
+    table = np.array([
+        [detail['n_both_correct'], n10],
+        [n01, detail['n_both_wrong']],
+    ], dtype=int)
+
+    if n01 + n10 == 0:
+        # Identical predictions everywhere — the exact test is degenerate but the
+        # answer is unambiguous: no evidence of a difference.
+        return 0.0, 1.0, detail
+
+    result = mcnemar(table, exact=True)
+    return float(result.statistic), float(result.pvalue), detail
+
+
+def evaluate_filter_impact_cv(
+    raw_dataset: Any,
+    filtered_datasets: Dict[str, Any],
+    target_label: str,
+    return_diagnostics: bool = False,
+    oof_output_path: str = None,
+) -> tuple:
+    """Cross-validated counterpart to `evaluate_filter_impact`.
+
+    Every dataset passed in must already carry `admission_ids` (call
+    `DatasetEHR.load_admission_ids`, populated by rerun/regen_admission_ids.py).
+    Without them there is no way to pair arms, which is the entire point.
+
+    Returns the **same five positions** as the legacy function so the existing
+    table and plot helpers work unchanged, but the semantics differ and the two
+    are not comparable:
+
+        [0] mean in-fold training accuracy, at the fold's own threshold
+        [1] out-of-fold accuracy, mean across repeats
+        [2] mean in-fold training macro F1, same threshold
+        [3] out-of-fold macro F1, mean across repeats
+        [4] (statistic, pvalue) from the paired, correctness-based McNemar
+
+    Positions 0 and 1 now describe one classifier at one operating point. In the
+    legacy tuple position 0 was a 4-fold CV score taken at the implicit 0.5 while
+    position 1 was a holdout score at the Youden threshold, so the two columns
+    sitting next to each other described different classifiers.
+
+    The partition is drawn once on the raw cohort and inherited by every arm, so
+    `raw` at index 0 is a genuine paired baseline rather than a coincidence of
+    equal lengths.
+
+    `oof_output_path` writes the out-of-fold scores to a .npz. Worth doing: it
+    makes any other metric or threshold rule re-derivable without refitting.
+    """
+    label_index = raw_dataset.label_index_map[target_label]
+
+    ordered_names = ['raw'] + list(filtered_datasets.keys())
+    all_datasets = {'raw': raw_dataset, **filtered_datasets}
+
+    for name, dataset in all_datasets.items():
+        if getattr(dataset, 'admission_ids', None) is None:
+            raise ValueError(
+                f"arm '{name}' has no admission_ids; run rerun/regen_admission_ids.py "
+                "and load the sidecar before calling this."
+            )
+
+    raw_ids = np.asarray(raw_dataset.admission_ids, dtype=np.int64)
+    _, raw_labels = _flatten_whole_dataset(raw_dataset, label_index)
+
+    assignment = build_fold_assignment(raw_ids, raw_labels)
+    labels_by_id = {int(i): int(y) for i, y in zip(raw_ids, raw_labels)}
+    partition_fingerprint = fingerprint(raw_ids, raw_labels)
+
+    arm_results = {}
+    for name in ordered_names:
+        dataset = all_datasets[name]
+        arm_ids = np.asarray(dataset.admission_ids, dtype=np.int64)
+        arm_assignment = project_to_arm(arm_ids, raw_ids, assignment)
+        arm_results[name] = evaluate_dataset_label_cv(
+            dataset, arm_ids, label_index, arm_assignment
+        )
+
+    training_averages, testing_averages = [], []
+    training_f1s, testing_f1s, mcnemar_results = [], [], []
+    diagnostics = {}
+
+    baseline = arm_results['raw']
+
+    for name in ordered_names:
+        result = arm_results[name]
+        training_averages.append(result['train_accuracy'])
+        testing_averages.append(result['diagnostics']['accuracy_mean'])
+        training_f1s.append(result['train_f1_macro'])
+        testing_f1s.append(result['diagnostics']['f1_macro_mean'])
+
+        statistic, p_value, detail = calculate_mcnemar_paired(
+            baseline['consensus_predictions'], baseline['admission_ids'],
+            result['consensus_predictions'], result['admission_ids'],
+            labels_by_id,
+        )
+        mcnemar_results.append((statistic, p_value))
+
+        diagnostics[name] = {
+            **result['diagnostics'],
+            'per_repeat': result['per_repeat'],
+            'thresholds': result['thresholds'],
+            'mcnemar': detail,
+            'partition_fingerprint': partition_fingerprint,
+        }
+
+    results = (training_averages, testing_averages, training_f1s, testing_f1s, mcnemar_results)
+
+    if oof_output_path is not None:
+        payload = {'raw_admission_ids': raw_ids, 'raw_labels': raw_labels,
+                   'fold_assignment': assignment}
+        for name in ordered_names:
+            slug = name.replace(' ', '_').lower()
+            payload[f'{slug}__admission_ids'] = arm_results[name]['admission_ids']
+            payload[f'{slug}__oof_scores'] = arm_results[name]['oof_scores'].astype(np.float32)
+            payload[f'{slug}__consensus_predictions'] = arm_results[name]['consensus_predictions']
+        np.savez_compressed(oof_output_path, **payload)
+
+    if not return_diagnostics:
+        return results
+
+    return results + (diagnostics,)
+
 
 def compute_tensor_centroid(tensor: torch.Tensor):
     """Per-vital mean for one patient, ignoring hours with no measurement.

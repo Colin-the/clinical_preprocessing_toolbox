@@ -1,0 +1,19 @@
+[median/icu] loading raw dataset ...
+[median/icu]   loaded heart rate (46,032 records, 5.3s)
+[median/icu]   loaded systolic blood pressure (46,032 records, 5.9s)
+[median/icu]   loaded diastolic blood pressure (46,032 records, 5.6s)
+[median/icu]   loaded mean blood pressure (46,032 records, 5.8s)
+[median/icu]   loaded respiration rate (46,032 records, 5.2s)
+[median/icu]   loaded temperature (46,032 records, 5.2s)
+[median/icu]   loaded oxygen saturation (46,032 records, 5.8s)
+[median/icu]   loaded fill missing data (46,032 records, 6.0s)
+[median/icu]   loaded long missing segment (31,028 records, 3.3s)
+[median/icu]   loaded long gap (20,323 records, 2.2s)
+[median/icu]   loaded high invalid data (1,365 records, 0.2s)
+[median/icu]   loaded all vitals (46,032 records, 6.2s)
+[median/icu] training 13 arms x 4 seeds ...
+[median/icu] done in 11.9 min
+[median/icu] wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/median/icu_filter_impact.pkl
+[median/icu] wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/median/icu_filter_impact_diagnostics.json
+[median/icu] raw arm: cv=0.7194 test_acc=0.7028 train_f1=0.9996 test_f1=0.6936
+[median/icu] raw arm splits: n_train=36,825 n_val=4,603 n_test=4,604 val_prev=0.3730 test_prev=0.3777 thresholds={22: 0.4, 985: 0.4233, 439: 0.3906, 81: 0.4233}

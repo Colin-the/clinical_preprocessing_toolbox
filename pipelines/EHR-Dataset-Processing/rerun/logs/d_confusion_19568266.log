@@ -1,0 +1,9 @@
+mortality seed=22 thr=0.1333 done
+mortality seed=985 thr=0.1267 done
+mortality seed=439 thr=0.1133 done
+mortality seed=81 thr=0.1833 done
+icu seed=22 thr=0.3967 done
+icu seed=985 thr=0.3733 done
+icu seed=439 thr=0.4067 done
+icu seed=81 thr=0.4100 done
+wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/rerun/logs/confusion_matrices_mean_raw.json

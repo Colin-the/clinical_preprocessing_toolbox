@@ -195,6 +195,12 @@ def filter_impact_table(results: Tuple[List], filter_names: List[str], delta:boo
     on the training split itself, so it sits near 1.0 for a random forest —
     read it as overfit headroom, not model quality.
 
+    The testing columns are scored on a true held-out 10% at a threshold chosen
+    on the validation split, not at the implicit 0.5. Expect lower accuracy than
+    pre-2026-08-10 tables showed, particularly for mortality — that's the
+    threshold trading accuracy for sensitivity on a low-prevalence label, not a
+    regression. evaluation_manager's diagnostics sidecar carries the thresholds.
+
     Watch out — filter_names.insert() mutates the caller's list. Passing the same
     list twice gets you 'Raw', 'Raw', ... so hand it a copy.
     """

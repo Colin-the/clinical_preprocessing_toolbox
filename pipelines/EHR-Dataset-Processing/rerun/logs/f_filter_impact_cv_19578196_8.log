@@ -1,0 +1,12 @@
+[maximum deviation/icu] loading 13 arms ...
+[maximum deviation/icu] loaded in 51.7s (raw 46,032 records)
+Traceback (most recent call last):
+  File "/home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/rerun/regen_filter_impact_cv.py", line 126, in <module>
+    main()
+  File "/home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/rerun/regen_filter_impact_cv.py", line 93, in main
+    *results, diagnostics = evaluate_filter_impact_cv(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Managers/evaluation_manager.py", line 693, in evaluate_filter_impact_cv
+    testing_averages.append(result['diagnostics']['accuracy_mean'])
+                            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'accuracy_mean'

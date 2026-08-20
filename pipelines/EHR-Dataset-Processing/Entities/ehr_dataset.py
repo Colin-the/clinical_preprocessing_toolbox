@@ -1,5 +1,6 @@
 from pathlib import Path
-from typing import Dict, Tuple, List
+from typing import Dict, Optional, Tuple, List
+import numpy as np
 import torch
 from torch.utils.data import Dataset
 import pandas as pd
@@ -14,6 +15,9 @@ class DatasetEHR:
     testing_set: Dataset
     split_weights: Tuple[float, float, float]
     data: List[Tuple[torch.Tensor, torch.Tensor]]
+    # Parallel to `data`, or None when the sidecar was never loaded. See
+    # load_admission_ids — everything that pairs arms by patient needs this.
+    admission_ids: Optional[np.ndarray]
 
 
     def __init__(self):
@@ -25,6 +29,7 @@ class DatasetEHR:
         self.testing_set = Dataset()
         self.split_weights = (0, 0, 0)
         self.data = []
+        self.admission_ids = None
         # 24 hours × 7 vitals. Fixed by construction upstream, stored here so
         # model code doesn't have to reach into a sample to find the shape.
         self.num_rows = 24
@@ -101,3 +106,30 @@ class DatasetEHR:
 
     def save(self, file_path: str) -> None:
         torch.save(self.data, file_path)
+
+    def load_admission_ids(self, file_path: str) -> None:
+        """Attach the record keys written by rerun/regen_admission_ids.py.
+
+        Kept out of the dataset pickle on purpose. `save` writes a bare
+        `list[(Tensor, Tensor)]` via torch.save, and torch 2.12 loads with
+        weights_only=True by default — adding a non-tensor field would break
+        every existing reader of every cached pickle. So the ids live in a
+        sibling .npy and are opt-in.
+
+        Populating this is what makes an arm's predictions joinable against
+        another arm's; without it a record's only identity is its list position,
+        which differs between arms because the filters drop different records.
+        """
+        path = Path(file_path)
+        if not path.exists():
+            raise FileNotFoundError(
+                f"Admission id file '{file_path}' not found — run "
+                "rerun/regen_admission_ids.py for this aggregation first."
+            )
+        ids = np.load(path)
+        if len(ids) != len(self.data):
+            raise ValueError(
+                f"'{file_path}' holds {len(ids):,} ids but the dataset has "
+                f"{len(self.data):,} records; they are not the same arm."
+            )
+        self.admission_ids = ids

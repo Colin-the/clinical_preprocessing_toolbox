@@ -1,0 +1,19 @@
+[mean/mortality] loading raw dataset ...
+[mean/mortality]   loaded heart rate (46,032 records, 4.9s)
+[mean/mortality]   loaded systolic blood pressure (46,032 records, 5.4s)
+[mean/mortality]   loaded diastolic blood pressure (46,032 records, 4.7s)
+[mean/mortality]   loaded mean blood pressure (46,032 records, 5.4s)
+[mean/mortality]   loaded respiration rate (46,032 records, 5.1s)
+[mean/mortality]   loaded temperature (46,032 records, 5.2s)
+[mean/mortality]   loaded oxygen saturation (46,032 records, 5.2s)
+[mean/mortality]   loaded fill missing data (46,032 records, 5.5s)
+[mean/mortality]   loaded long missing segment (31,029 records, 3.1s)
+[mean/mortality]   loaded long gap (20,323 records, 2.1s)
+[mean/mortality]   loaded high invalid data (1,369 records, 0.1s)
+[mean/mortality]   loaded all vitals (46,032 records, 5.7s)
+[mean/mortality] training 13 arms x 4 seeds ...
+[mean/mortality] done in 12.4 min
+[mean/mortality] wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/mean/mortality_filter_impact.pkl
+[mean/mortality] wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/mean/mortality_filter_impact_diagnostics.json
+[mean/mortality] raw arm: cv=0.9123 test_acc=0.7410 train_f1=0.9557 test_f1=0.5871
+[mean/mortality] raw arm splits: n_train=36,825 n_val=4,603 n_test=4,604 val_prev=0.0943 test_prev=0.0997 thresholds={22: 0.1333, 985: 0.1267, 439: 0.1133, 81: 0.1833}

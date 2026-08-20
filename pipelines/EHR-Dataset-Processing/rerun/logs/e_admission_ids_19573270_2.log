@@ -1,0 +1,19 @@
+[standard deviation] loading processed records ...
+[standard deviation] 46,032 records in 11.0s
+[standard deviation] aggregating once for the record-dropping arms ...
+[standard deviation] aggregated in 183.3s
+[standard deviation] raw: 46,032 ids -> raw_admission_ids.npy (2.4s)
+[standard deviation] heart rate: 46,032 ids -> heart_rate_admission_ids.npy (2.5s)
+[standard deviation] systolic blood pressure: 46,032 ids -> systolic_blood_pressure_admission_ids.npy (2.5s)
+[standard deviation] diastolic blood pressure: 46,032 ids -> diastolic_blood_pressure_admission_ids.npy (4.2s)
+[standard deviation] mean blood pressure: 46,032 ids -> mean_blood_pressure_admission_ids.npy (2.5s)
+[standard deviation] respiration rate: 46,032 ids -> respiration_rate_admission_ids.npy (2.5s)
+[standard deviation] temperature: 46,032 ids -> temperature_admission_ids.npy (2.5s)
+[standard deviation] oxygen saturation: 46,032 ids -> oxygen_saturation_admission_ids.npy (2.5s)
+[standard deviation] fill missing data: 46,032 ids -> fill_missing_data_admission_ids.npy (4.0s)
+[standard deviation] long missing segment: 367 ids -> long_missing_segment_admission_ids.npy (24.4s)
+[standard deviation] long gap: 251 ids -> long_gap_admission_ids.npy (24.9s)
+[standard deviation] high invalid data: 0 ids -> high_invalid_data_admission_ids.npy (5.2s)
+[standard deviation] all vitals: 46,032 ids -> all_vitals_admission_ids.npy (4.3s)
+
+[standard deviation] wrote 13 id vectors, all validated against their cached pickles.

@@ -552,14 +552,37 @@ def _(
     # *_filter_impact.pkl files were computed with these and nothing checks.
     RANDOM_SEEDS = [22, 985, 439, 81]
 
+    # Which evaluation design to read. '' is the legacy single-holdout sweep the
+    # published figures were built from; '_cv' is the repeated-stratified-k-fold
+    # rework (rerun/regen_filter_impact_cv.py), which predicts every record
+    # out-of-fold under four independent partitions and pairs McNemar on
+    # admission_id.
+    #
+    # Both files carry the same five positions so the plots below work either
+    # way, but the numbers are NOT comparable: the legacy tuple's position 0 is a
+    # CV score at the implicit 0.5 while position 1 is a holdout score at the
+    # Youden threshold, whereas the _cv tuple reports both at one operating
+    # point. Defaulting to legacy so opting in is a deliberate act.
+    IMPACT_SUFFIX = ''
+
     def get_filter_impact(label: str):
         results_dict = dict()
 
         for aggregation_method in AGGREGATION_METHODS:
-            file_path = Path(f'{PROJECT_ROOT}/Data/{DATASET_NAME}/{aggregation_method}/{label}_filter_impact.pkl')
+            file_path = Path(f'{PROJECT_ROOT}/Data/{DATASET_NAME}/{aggregation_method}/{label}_filter_impact{IMPACT_SUFFIX}.pkl')
 
             if file_path.exists():
                 filter_impact_results = load_object(str(file_path))
+            elif IMPACT_SUFFIX:
+                # The fallback below computes the *legacy* design. Letting it run
+                # under a non-legacy suffix would write single-holdout results to
+                # a filename that claims to be cross-validated — the one failure
+                # mode of this switch that would be invisible afterwards.
+                raise FileNotFoundError(
+                    f"{file_path.name} not found. IMPACT_SUFFIX={IMPACT_SUFFIX!r} "
+                    "results come from rerun/job_f_filter_impact_cv.sh; this "
+                    "notebook will not synthesise them."
+                )
             else:
                 filter_impact_results = evaluate_filter_impact(
                     raw_dataset=RAW_DATASETS[aggregation_method],
