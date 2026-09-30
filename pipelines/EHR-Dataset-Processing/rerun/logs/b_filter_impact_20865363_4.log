@@ -1,0 +1,19 @@
+[standard deviation/icu] loading raw dataset ...
+[standard deviation/icu]   loaded heart rate (46,032 records, 4.5s)
+[standard deviation/icu]   loaded systolic blood pressure (46,032 records, 4.9s)
+[standard deviation/icu]   loaded diastolic blood pressure (46,032 records, 4.5s)
+[standard deviation/icu]   loaded mean blood pressure (46,032 records, 5.0s)
+[standard deviation/icu]   loaded respiration rate (46,032 records, 4.7s)
+[standard deviation/icu]   loaded temperature (46,032 records, 4.7s)
+[standard deviation/icu]   loaded oxygen saturation (46,032 records, 5.0s)
+[standard deviation/icu]   loaded fill missing data (46,032 records, 5.1s)
+[standard deviation/icu]   loaded long missing segment (367 records, 0.0s)
+[standard deviation/icu]   loaded long gap (251 records, 0.0s)
+[standard deviation/icu]   loaded high invalid data (0 records, 0.0s)
+[standard deviation/icu]   loaded all vitals (46,032 records, 4.1s)
+[standard deviation/icu] training 13 arms x 4 seeds ...
+[standard deviation/icu] done in 7.6 min
+[standard deviation/icu] wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/standard deviation/icu_filter_impact.pkl
+[standard deviation/icu] wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/standard deviation/icu_filter_impact_diagnostics.json
+[standard deviation/icu] raw arm: cv=0.6852 test_acc=0.6751 train_f1=0.9448 test_f1=0.6583
+[standard deviation/icu] raw arm splits: n_train=36,825 n_val=4,603 n_test=4,604 val_prev=0.3730 test_prev=0.3777 thresholds={22: 0.42, 985: 0.4233, 439: 0.4133, 81: 0.4267}

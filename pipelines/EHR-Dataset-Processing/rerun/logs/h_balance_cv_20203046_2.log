@@ -1,0 +1,11 @@
+[median/icu] loading 1 arm(s) ...
+[median/icu] loaded in 4.4s (raw 46,032 records)
+[median/icu] strategies=['none', 'oversample', 'undersample', 'smote'] baseline=refit ~80 forest fits
+[median/icu] evaluated in 10.6 min
+[median/icu] wrote icu_balance_impact_cv.pkl and icu_balance_impact_cv_diagnostics.json
+    arm / strategy                         acc      f1  bal_acc  recall   auroc   auprc  pos_rate    synth
+    raw / none                          0.7192  0.6795   0.6733  0.4893  0.7841  0.6814    0.2687        0
+    raw / oversample                    0.7144  0.6873   0.6835  0.5595  0.7814  0.6760    0.3251        0
+    raw / undersample                   0.6848  0.6810   0.7010  0.7661  0.7808  0.6747    0.5132        0
+    raw / smote                         0.7129  0.6917   0.6905  0.6008  0.7810  0.6756    0.3579  183,808
+[median/icu] baseline trained on 0.80 of the cohort vs 0.80 for the balanced arms

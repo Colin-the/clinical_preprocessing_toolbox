@@ -215,14 +215,26 @@ def _(mo):
 
 @app.cell
 def _(mo, pd):
+    # Hard physiological ranges for the seven vitals, keyed by the repo-wide lowercase
+    # names. `_remove_outliers` tests these as a CLOSED interval (`lo <= v <= hi`), so
+    # the upper bound is a value the filter keeps, not the first one it rejects. Until
+    # 2026-08-30 every table here sat one unit low (SpO2 99, so a perfectly normal — and
+    # modal — reading of 100% was deleted as a charting error); see bug register F-02.
+    #
+    # Six copies of this table exist and they must stay literally identical. Drift
+    # between them is what produced register entry R-30:
+    #   Experiments/apply_dataset_filter.py     Experiments/notebook.py
+    #   rerun/_common.py                        gallery/render_marimo_mimic_iii.py
+    #   Experiments/fill_missing_data_analysis.py
+    #   Experiments/render_paper_figures.py     (names/units only; ranges inert there)
     VITALS = {
-        'heart rate': [(1, 599), 'bpm'],
-        'systolic blood pressure': [(1, 399), 'mmHg'],
-        'diastolic blood pressure': [(1, 299), 'mmHg'],
-        'mean blood pressure': [(1, 299), 'mmHg'],
-        'respiration rate': [(1, 69), 'breaths/min'],
-        'temperature': [(21, 49), 'C'],
-        'oxygen saturation': [(1, 99), '%']
+        'heart rate': [(1, 600), 'bpm'],
+        'systolic blood pressure': [(1, 400), 'mmHg'],
+        'diastolic blood pressure': [(1, 300), 'mmHg'],
+        'mean blood pressure': [(1, 300), 'mmHg'],
+        'respiration rate': [(1, 70), 'breaths/min'],
+        'temperature': [(21, 50), 'C'],
+        'oxygen saturation': [(1, 100), '%']
     }
 
     mo.ui.table(pd.DataFrame.from_dict(VITALS, orient="index", columns=["range", "unit"]), selection=None)
@@ -908,6 +920,205 @@ def _(
         for agg in AGGREGATION_METHODS
     }, multiple=True)
     return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Class Balancing Analysis
+
+    The filter-impact sections above correct for class imbalance at the *decision*
+    layer: the forest is fitted on the natural distribution and the threshold is
+    then moved off 0.5 to compensate. This section does it at the *training data*
+    layer instead — resample each training fold to a 1:1 class ratio, fit, and
+    score at a fixed 0.5.
+
+    Four arms, produced by `rerun/job_h_balance_cv.sh`:
+
+    | Arm | Mechanism |
+    |---|---|
+    | `none` | Unbalanced baseline, re-read from stage F's cached out-of-fold scores at 0.5 |
+    | `oversample` | Duplicate real minority records until the classes match |
+    | `undersample` | Drop real majority records until the classes match |
+    | `smote` | Interpolate new minority records between real neighbours |
+
+    **Reading these numbers.** Accuracy is the wrong headline here: at 9.7%
+    mortality prevalence the unbalanced baseline scores ~0.91 by predicting almost
+    nothing positive (recall ~0.11). Balancing trades that accuracy for recall, so
+    judge it on **balanced accuracy**, **recall**, and above all **AUPRC**, which
+    is computed from the scores and so is independent of the 0.5 cut.
+
+    Balancing is applied to training folds only — never to the held-out fold —
+    and every synthetic record is tracked so it can never reach evaluation. See
+    `Managers/balancing_manager.py` and `rerun/verify_balance.py`.
+
+    SMOTE here is **mask-aware**: because `0` in the feature matrix means "never
+    measured" rather than a reading, neighbours are found over co-observed cells
+    only (`nan_euclidean`), each synthetic record inherits its base parent's
+    missingness pattern, and interpolation happens only where both parents
+    actually measured.
+    """)
+    return
+
+
+@app.cell
+def _(AGGREGATION_METHODS, DATASET_NAME, PROJECT_ROOT, Path, load_object):
+    import json as _json
+
+    # Mirrors IMPACT_SUFFIX above. Stage H writes its own filenames so the
+    # filter-impact artifacts are never touched; there is no legacy variant of
+    # this one, so the constant exists for symmetry and for future reruns.
+    BALANCE_SUFFIX = '_balance_impact_cv'
+
+    # Index 0 is the unbalanced baseline every other arm is compared against.
+    BALANCE_ARMS = ['raw / none', 'raw / oversample', 'raw / undersample', 'raw / smote']
+
+    def get_balance_impact(label: str):
+        """Read stage H's pickle and diagnostics sidecar for every aggregation.
+
+        Returns {aggregation: (results_tuple, diagnostics) | None}. Unlike
+        get_filter_impact this never computes anything on a cache miss — these
+        results train forests on resampled folds and belong in a batch job, not
+        in a notebook cell. A missing aggregation comes back as None and renders
+        as a note rather than raising, so the notebook still opens before stage H
+        has run.
+        """
+        results_dict = dict()
+
+        for aggregation_method in AGGREGATION_METHODS:
+            directory = Path(f'{PROJECT_ROOT}/Data/{DATASET_NAME}/{aggregation_method}')
+            pickle_path = directory / f'{label}{BALANCE_SUFFIX}.pkl'
+            sidecar_path = directory / f'{label}{BALANCE_SUFFIX}_diagnostics.json'
+
+            if not pickle_path.exists() or not sidecar_path.exists():
+                results_dict[aggregation_method] = None
+                continue
+
+            results_dict[aggregation_method] = (
+                load_object(str(pickle_path)),
+                _json.loads(sidecar_path.read_text()),
+            )
+
+        return results_dict
+
+    return BALANCE_ARMS, BALANCE_SUFFIX, get_balance_impact
+
+
+@app.cell
+def _(get_balance_impact):
+    ICU_BALANCE_RESULTS = get_balance_impact('icu')
+    MORTALITY_BALANCE_RESULTS = get_balance_impact('mortality')
+    return ICU_BALANCE_RESULTS, MORTALITY_BALANCE_RESULTS
+
+
+@app.cell
+def _(mo, pd):
+    def balance_metric_table(diagnostics):
+        """One row per arm, with the metrics that actually distinguish them.
+
+        filter_impact_table is not reused here: it carries four columns and
+        hardcodes 'Raw' as the first row label, and the interesting differences
+        between balancing strategies live in recall and AUPRC, which it has no
+        column for.
+        """
+        rows = []
+        for name, detail in diagnostics.items():
+            rows.append({
+                'Arm': name,
+                'Accuracy': round(detail['accuracy_mean'], 4),
+                'Macro F1': round(detail['f1_macro_mean'], 4),
+                'Balanced Acc': round(detail['balanced_accuracy_mean'], 4),
+                'Recall': round(detail['recall_mean'], 4),
+                'AUROC': round(detail['auroc_mean'], 4),
+                'AUPRC': round(detail['auprc_mean'], 4),
+                'Pred. Pos. Rate': round(detail['predicted_positive_rate'], 4),
+                'Synthetic Rows': detail['n_synthetic_total'],
+                'Train Rows': (None if pd.isna(detail['mean_train_rows'])
+                               else int(detail['mean_train_rows'])),
+            })
+        return mo.ui.table(pd.DataFrame(rows), selection=None)
+
+    def balance_caveat(diagnostics):
+        """Surface the training-set-size confound rather than burying it.
+
+        A baseline reused from stage F was fitted on 7/8 of its training fold
+        because that path carved off an inner-validation slice; the balanced arms
+        train on all of it. Left unsaid, that difference reads as a balancing
+        effect.
+        """
+        reused = [d for d in diagnostics.values() if d.get('reused_from_cache')]
+        if not reused:
+            return mo.md('Baseline was refitted at 0.5 with no validation split — '
+                         'all arms trained on the same 80% of the cohort.')
+        return mo.callout(
+            mo.md(
+                f"**Baseline reused from stage F.** It was fitted on "
+                f"`{reused[0]['baseline_trained_on_fraction']:.2f}` of the cohort "
+                f"against `0.80` for the balanced arms, so the comparison is "
+                f"tilted slightly in favour of balancing. Rerun stage H with "
+                f"`--refit-baseline` to remove it."
+            ),
+            kind='warn',
+        )
+
+    return balance_caveat, balance_metric_table
+
+
+@app.cell
+def _(
+    AGGREGATION_METHODS,
+    BALANCE_ARMS,
+    ICU_BALANCE_RESULTS,
+    MORTALITY_BALANCE_RESULTS,
+    PLOT_THEME,
+    balance_caveat,
+    balance_metric_table,
+    filter_impact_plot,
+    lazy_loader,
+    mcnemar_plot,
+    mo,
+):
+    def balance_panel(results, label):
+        def render(aggregation_method):
+            entry = results[aggregation_method]
+            if entry is None:
+                return mo.md(
+                    f'No stage H results for **{aggregation_method}**. '
+                    'Run `sbatch rerun/job_h_balance_cv.sh`.'
+                )
+            scores, diagnostics = entry
+            # filter_impact_plot and mcnemar_plot both treat index 0 as the
+            # baseline and expect names for the remaining arms only.
+            treatment_names = [name.split(' / ')[-1].title() for name in BALANCE_ARMS[1:]]
+            return mo.vstack([
+                balance_caveat(diagnostics),
+                mo.md('**Balancing Impact Results**'),
+                balance_metric_table(diagnostics),
+                mo.center(filter_impact_plot(
+                    scores[1], list(treatment_names), label,
+                    'Out-of-Fold Accuracy @ 0.5', aggregation_method, background=PLOT_THEME)),
+                mo.center(filter_impact_plot(
+                    scores[3], list(treatment_names), label,
+                    'Out-of-Fold Macro F1 @ 0.5', aggregation_method, background=PLOT_THEME)),
+                mo.center(mcnemar_plot(
+                    [x[1] for x in scores[-1]][1:], list(treatment_names), label,
+                    aggregation_method, background=PLOT_THEME)),
+            ], gap=2)
+
+        return mo.accordion({
+            aggregation_method.title(): lazy_loader(
+                lambda aggregation_method=aggregation_method: render(aggregation_method)
+            )
+            for aggregation_method in AGGREGATION_METHODS
+        })
+
+    mo.vstack([
+        mo.md('#### ICU'),
+        balance_panel(ICU_BALANCE_RESULTS, 'ICU'),
+        mo.md('#### Mortality'),
+        balance_panel(MORTALITY_BALANCE_RESULTS, 'Mortality'),
+    ], gap=2)
+    return balance_panel
 
 
 if __name__ == "__main__":

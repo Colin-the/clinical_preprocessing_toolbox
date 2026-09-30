@@ -1,0 +1,70 @@
+verify_balance: mean / mortality / raw
+
+── 1. balancing primitives ───────────────────────────────────────────
+balancing_manager self-check
+  PASS  oversample: classes are balanced — {0: 2872, 1: 2872}
+  PASS  oversample: provenance length matches rows
+  PASS  oversample: real rows all come from the training side
+  PASS  oversample: leakage assertion passes
+  PASS  oversample: same seed reproduces byte-identical output
+  PASS  oversample: a different fold draws differently
+  PASS  undersample: classes are balanced — {0: 328, 1: 328}
+  PASS  undersample: provenance length matches rows
+  PASS  undersample: real rows all come from the training side
+  PASS  undersample: leakage assertion passes
+  PASS  undersample: same seed reproduces byte-identical output
+  PASS  undersample: a different fold draws differently
+  PASS  smote: classes are balanced — {0: 2872, 1: 2872}
+  PASS  smote: provenance length matches rows
+  PASS  smote: real rows all come from the training side
+  PASS  smote: leakage assertion passes
+  PASS  smote: same seed reproduces byte-identical output
+  PASS  smote: a different fold draws differently
+  PASS  oversample: creates nothing synthetic
+  PASS  oversample: every row is a verbatim copy of its source record
+  PASS  undersample: creates nothing synthetic
+  PASS  undersample: every row is a verbatim copy of its source record
+  PASS  smote: generated the exact deficit
+  PASS  smote: real rows are left untouched
+  PASS  smote: no non-finite values
+  PASS  smote: synthetic mask equals the base parent's mask
+  PASS  smote: never fills a cell the base parent had missing
+  PASS  smote: co-observed cells lie between the two parents — 0 violations of 155,208
+  PASS  smote: base-only cells keep the parent's real value — 104,786 cells
+  PASS  smote: parents are always real training records
+  PASS  smote: a row is never its own mate
+  PASS  degenerate: empty fold returns empty
+  PASS  degenerate: single-class fold is returned unbalanced
+  PASS  degenerate: one-record minority falls back to oversampling
+OK
+  PASS  balancing_manager self-check
+
+── 2. per-fold resampling against the real cohort ────────────────────
+  raw: 46,032 records, prevalence 0.0966
+  PASS  oversample: no held-out record in any training fold
+  PASS  oversample: every fold reaches a 1:1 class ratio
+  PASS  oversample: no synthetic row appears in a test fold — 0 collisions
+    oversample: 1,330,784 real rows, 0 synthetic across all folds
+  PASS  undersample: no held-out record in any training fold
+  PASS  undersample: every fold reaches a 1:1 class ratio
+  PASS  undersample: no synthetic row appears in a test fold — 0 collisions
+    undersample: 142,240 real rows, 0 synthetic across all folds
+  PASS  smote: no held-out record in any training fold
+  PASS  smote: every fold reaches a 1:1 class ratio
+  PASS  smote: no synthetic row appears in a test fold — 0 collisions
+  PASS  smote: every synthetic row keeps its base parent's missingness mask
+    smote: 736,512 real rows, 594,272 synthetic across all folds
+
+── 3. leakage probe (shuffled labels, per strategy) ──────────────────
+  PASS  oversample: shuffled-label AUC collapses to chance — auc=0.4953
+  PASS  undersample: shuffled-label AUC collapses to chance — auc=0.4967
+  PASS  smote: shuffled-label AUC collapses to chance — auc=0.5003
+
+── 4. stage H artifacts ──────────────────────────────────────────────
+  PASS  all arms share one partition fingerprint — {'875f52d304c6248e'}
+  PASS  every strategy present
+  PASS  every arm scored at 0.5
+  PASS  only smote created synthetic rows
+  NOTE  baseline reused from stage F and trained on 0.70 of the cohort against 0.80 for the balanced arms; rerun with --refit-baseline to remove the confound
+
+OK

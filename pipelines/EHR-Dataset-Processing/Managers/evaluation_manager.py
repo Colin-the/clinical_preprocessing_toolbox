@@ -17,15 +17,21 @@ from cuml.ensemble import RandomForestClassifier
 from cuml.metrics import accuracy_score
 from cuml.model_selection import KFold
 from scipy.stats import mode
-from sklearn.metrics import f1_score, roc_curve
+from sklearn.metrics import (
+    average_precision_score, balanced_accuracy_score, f1_score, recall_score,
+    roc_auc_score, roc_curve,
+)
 from statsmodels.stats.contingency_tables import mcnemar
 from tqdm.notebook import tqdm
 from tabulate import tabulate
 from Entities.ehr_dataset import DatasetEHR
 from Managers.dataset_manager import flatten_subset_to_cupy
+from Managers.balancing_manager import (
+    STRATEGIES, assert_no_leakage, balance_training_fold,
+)
 from Managers.partition_manager import (
-    N_SPLITS, build_fold_assignment, fingerprint, fold_prevalences,
-    forest_seed, inner_split, project_to_arm,
+    INNER_VALIDATION_SHARE, N_SPLITS, build_fold_assignment, fingerprint,
+    fold_prevalences, forest_seed, inner_split, project_to_arm,
 )
 
 
@@ -180,7 +186,7 @@ def evaluate_dataset_label_impact(dataset: Any, label_index: int, seed: int) -> 
 
     # Both splits are thresholded at the same validation-selected operating
     # point, rather than going through .predict()'s implicit 0.5, so the
-    # training F1 and the test F1 describe the same classifier.
+    # training F1 and the test F1 describe the same classifier
     test_predictions = (_positive_scores(final_model, x_test) >= threshold).astype(int)
     train_predictions = (_positive_scores(final_model, x_train) >= threshold).astype(int)
     test_score = float(np.mean(test_predictions == y_test_host))
@@ -796,3 +802,446 @@ def compute_dataset_centroid(dataset: DatasetEHR, label: str=None, polarity: str
         if tensor_labels[i][label_index] == polarity_index or label_index == -1
     ]
     return [dataset_centroid_sums[i] / dataset_centroid_counts[i] for i in range(num_vitals)], filtered_points
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Class-balanced evaluation (stage H, 2026-08-20)
+#
+# Everything above corrects class imbalance at the *decision* layer: the forest is
+# fitted on the natural distribution and `pick_threshold` then moves the operating
+# point off 0.5. This path corrects it at the *training data* layer instead —
+# resample the training fold to 1:1, fit, and score at a fixed 0.5. That is the
+# other half of bug_register.py E-11, and the two halves are deliberately not
+# combined here: stacking a resampler and a tuned threshold would leave no way to
+# say which one produced the change.
+#
+# Consequences of dropping threshold selection, both intended:
+#   * there is no inner-validation split at all, so a fold trains on the full 80%
+#     rather than 7/8 of it;
+#   * accuracy is read at 0.5 on a test fold that keeps its natural prevalence.
+#
+# These results are NOT comparable to the `_cv` pickles above, which are scored at
+# each fold's own Youden threshold. They are written to their own filenames.
+# ─────────────────────────────────────────────────────────────────────────────
+
+FIXED_THRESHOLD = 0.5
+
+
+def _score_metrics(y_true: np.ndarray, y_pred: np.ndarray, scores: np.ndarray) -> Dict[str, float]:
+    """The metric block reported for one out-of-fold vector.
+
+    Accuracy alone is close to useless at 9.7% prevalence — predicting all-negative
+    scores 0.903 — so it travels with four companions. Balanced accuracy and macro
+    F1 weight the minority class up; AUROC and AUPRC are computed from the raw
+    scores and so are independent of the 0.5 cut, which makes them the only
+    numbers here that compare strategies without the operating point confounding
+    the answer. AUPRC specifically is what E-11's fix field asks for: at this
+    prevalence a PR curve separates useful models far better than a ROC does.
+
+    Single-class inputs make the ranking metrics undefined; they come back NaN
+    rather than raising, and `_mean_of_finite` upstream drops them.
+    """
+    if y_true.size == 0:
+        return {k: float('nan') for k in
+                ('accuracy', 'f1_macro', 'balanced_accuracy', 'recall', 'auroc', 'auprc')}
+
+    both_classes = len(np.unique(y_true)) > 1
+    return {
+        'accuracy': float(np.mean(y_pred == y_true)),
+        'f1_macro': float(f1_score(y_true, y_pred, average='macro')),
+        'balanced_accuracy': float(balanced_accuracy_score(y_true, y_pred)) if both_classes else float('nan'),
+        'recall': float(recall_score(y_true, y_pred, zero_division=0)),
+        'auroc': float(roc_auc_score(y_true, scores)) if both_classes else float('nan'),
+        'auprc': float(average_precision_score(y_true, scores)) if both_classes else float('nan'),
+    }
+
+
+def evaluate_dataset_label_cv_balanced(
+    dataset: Any,
+    admission_ids: np.ndarray,
+    label_index: int,
+    fold_assignment: np.ndarray,
+    strategy: str,
+) -> Dict[str, Any]:
+    """Repeated stratified k-fold for one arm under one balancing strategy.
+
+    Structurally the same as `evaluate_dataset_label_cv` — same partition, same
+    forest, same out-of-fold bookkeeping — with two deliberate differences:
+    `inner_split`/`pick_threshold` are not called at all, and the training rows
+    are resampled by `balance_training_fold` before the fit.
+
+    **Why the held-out fold cannot be contaminated.** The resampled matrix is a
+    fold-local variable; test features are always read out of the original
+    `features` matrix by position (`features[test_positions]`), never out of it.
+    A synthetic row therefore has no position in the arm's row order and is not
+    representable in `oof_scores`/`oof_predictions` at all. `assert_no_leakage`
+    then checks the weaker but auditable property — that no real row in the
+    training set came from the held-out fold — on every fold, not behind a flag.
+
+    Note the training set here is the full 80% of the cohort, where the threshold-
+    selecting path trains on 7/8 of that. Fitting is correspondingly slower, and
+    a `_cv` number is not a fair baseline for one of these. See
+    `baseline_from_cached_scores` for the comparable baseline.
+    """
+    if strategy not in STRATEGIES:
+        raise ValueError(f"unknown strategy {strategy!r}; expected one of {STRATEGIES}")
+
+    n_records = len(dataset.data)
+    admission_ids = np.asarray(admission_ids, dtype=np.int64)
+
+    if n_records != len(admission_ids):
+        raise ValueError(f"{n_records:,} records against {len(admission_ids):,} admission ids")
+
+    n_repeats = fold_assignment.shape[0]
+    features, labels = _flatten_whole_dataset(dataset, label_index)
+
+    # One host copy for the resampler, which is pure numpy by design. Under the
+    # CPU backend cp.asnumpy is np.asarray and this is free; on a real GPU it is
+    # one device→host transfer per arm rather than per fold.
+    features_host = np.asarray(cp.asnumpy(features)) if n_records else np.empty((0, 0))
+
+    oof_scores = np.full((n_repeats, n_records), np.nan, dtype=np.float64)
+    oof_predictions = np.full((n_repeats, n_records), -1, dtype=np.int8)
+    train_accuracies: List[float] = []
+    train_f1s: List[float] = []
+    balance_log: Dict[str, Dict[str, Any]] = {}
+    n_folds_fitted = 0
+
+    for repeat in range(n_repeats):
+        for fold in range(N_SPLITS):
+            test_positions = np.where(fold_assignment[repeat] == fold)[0]
+            train_positions = np.where(fold_assignment[repeat] != fold)[0]
+
+            if test_positions.size == 0 or train_positions.size == 0:
+                continue
+
+            # Same guard as the threshold path: a single-class training side
+            # gives a forest that predicts one label everywhere, and there is
+            # nothing for a resampler to balance either.
+            if len(np.unique(labels[train_positions])) < 2:
+                continue
+
+            balanced = balance_training_fold(
+                strategy, features_host, labels, train_positions, repeat, fold
+            )
+            assert_no_leakage(balanced, train_positions, test_positions)
+            balance_log[f"r{repeat}f{fold}"] = balanced.stats
+
+            seed = forest_seed(repeat, fold)
+            model = RandomForestClassifier(n_estimators=300, random_state=seed)
+            model.fit(cp.asarray(balanced.x), cp.asarray(balanced.y))
+
+            test_scores = _positive_scores(model, features[cp.asarray(test_positions)])
+            oof_scores[repeat, test_positions] = test_scores
+            oof_predictions[repeat, test_positions] = (test_scores >= FIXED_THRESHOLD).astype(np.int8)
+            n_folds_fitted += 1
+
+            # Scored on the *original* training rows, not the resampled ones, so
+            # this stays comparable across strategies — an oversampled fold would
+            # otherwise be graded on a set containing each minority patient
+            # several times.
+            fit_scores = _positive_scores(model, features[cp.asarray(train_positions)])
+            fit_predictions = (fit_scores >= FIXED_THRESHOLD).astype(int)
+            train_accuracies.append(float(np.mean(fit_predictions == labels[train_positions])))
+            train_f1s.append(float(f1_score(labels[train_positions], fit_predictions, average='macro')))
+
+    per_repeat = []
+    for repeat in range(n_repeats):
+        covered = oof_predictions[repeat] >= 0
+        if not covered.any():
+            per_repeat.append({**_score_metrics(np.array([]), np.array([]), np.array([])), 'n': 0})
+            continue
+        per_repeat.append({
+            **_score_metrics(labels[covered], oof_predictions[repeat][covered], oof_scores[repeat][covered]),
+            'n': int(covered.sum()),
+        })
+
+    covered_mask = ~np.isnan(oof_scores)
+    covered_count = covered_mask.sum(axis=0)
+    consensus_scores = np.full(n_records, np.nan, dtype=np.float64)
+    has_any = covered_count > 0
+    consensus_scores[has_any] = np.nansum(oof_scores[:, has_any], axis=0) / covered_count[has_any]
+
+    consensus_covered = ~np.isnan(consensus_scores)
+    consensus_predictions = np.full(n_records, -1, dtype=np.int8)
+    consensus_predictions[consensus_covered] = (
+        consensus_scores[consensus_covered] >= FIXED_THRESHOLD
+    ).astype(np.int8)
+
+    synthetic_total = sum(int(s['n_synthetic']) for s in balance_log.values())
+    diagnostics = {
+        'strategy': strategy,
+        'threshold': FIXED_THRESHOLD,
+        'n_records': int(n_records),
+        'coverage': float(np.mean(consensus_covered)) if n_records else 0.0,
+        'n_folds_fitted': n_folds_fitted,
+        'n_synthetic_total': synthetic_total,
+        'smote_fallback_folds': sum(1 for s in balance_log.values() if s['smote_fallback']),
+        'mean_train_rows': (float(np.mean([s['n_train_out'] for s in balance_log.values()]))
+                            if balance_log else float('nan')),
+        'predicted_positive_rate': (float(np.mean(consensus_predictions[consensus_covered]))
+                                    if consensus_covered.any() else float('nan')),
+        'baseline_trained_on_fraction': 1.0 - 1.0 / N_SPLITS,
+        'degenerate': n_folds_fitted == 0,
+    }
+    for metric in ('accuracy', 'f1_macro', 'balanced_accuracy', 'recall', 'auroc', 'auprc'):
+        diagnostics[f'{metric}_mean'] = _mean_of_finite([r[metric] for r in per_repeat])
+        diagnostics[f'{metric}_std'] = _std_of_finite([r[metric] for r in per_repeat])
+    diagnostics.update(fold_prevalences(fold_assignment, labels))
+
+    return {
+        'admission_ids': admission_ids,
+        'y': labels,
+        'oof_scores': oof_scores,
+        'oof_predictions': oof_predictions,
+        'consensus_scores': consensus_scores,
+        'consensus_predictions': consensus_predictions,
+        'per_repeat': per_repeat,
+        'balance_log': balance_log,
+        'train_accuracy': float(np.mean(train_accuracies)) if train_accuracies else float('nan'),
+        'train_f1_macro': float(np.mean(train_f1s)) if train_f1s else float('nan'),
+        'diagnostics': diagnostics,
+    }
+
+
+def baseline_from_cached_scores(
+    npz_path: str, arm: str, fold_assignment: np.ndarray
+) -> Dict[str, Any]:
+    """Re-derive the unbalanced baseline from stage F's cached out-of-fold scores.
+
+    Stage F already fitted these forests and wrote every record's out-of-fold
+    *score* to `<label>_oof_scores_cv.npz`. Scores do not depend on the operating
+    point, so the no-balancing arm can be re-read at a fixed 0.5 without fitting
+    anything — which is the whole reason the baseline costs nothing here.
+
+    What is *not* reusable is the cached accuracy in `<label>_filter_impact_cv.pkl`:
+    that was taken at each fold's Youden threshold and would flatter the baseline
+    against a 0.5-thresholded balanced arm. Reading the scores and re-thresholding
+    is the correction.
+
+    One caveat the caller must carry, and which is written into the returned
+    diagnostics as `baseline_trained_on_fraction`: these forests were fitted on
+    `fit_positions`, i.e. 7/8 of the 80% training fold, because stage F carved off
+    an inner-validation slice. The balanced arms train on the whole 80%. The
+    baseline is therefore fitted on ~12% less data, which biases the comparison in
+    favour of the balancing strategies. `regen_balance_cv.py --refit-baseline`
+    removes the caveat by refitting instead; it costs 20 fits per (aggregation,
+    label).
+
+    Training-split metrics cannot be recovered from the npz and come back NaN.
+    """
+    slug = arm.replace(' ', '_').lower()
+    with np.load(npz_path) as payload:
+        required = f'{slug}__oof_scores'
+        if required not in payload:
+            raise KeyError(
+                f"{required!r} not in {npz_path}; stage F must have run for this "
+                f"(aggregation, label) before the baseline can be reused"
+            )
+        oof_scores = payload[required].astype(np.float64)
+        admission_ids = payload[f'{slug}__admission_ids'].astype(np.int64)
+        labels = payload['raw_labels'].astype(np.int64)
+        raw_ids = payload['raw_admission_ids'].astype(np.int64)
+
+    # The npz stores raw's labels only, so an arm that dropped records needs its
+    # own labels looked up by id rather than assumed positionally.
+    if not np.array_equal(admission_ids, raw_ids):
+        lookup = {int(i): int(y) for i, y in zip(raw_ids, labels)}
+        labels = np.array([lookup[int(i)] for i in admission_ids], dtype=np.int64)
+
+    n_records = admission_ids.size
+    oof_predictions = np.where(np.isnan(oof_scores), -1,
+                               (oof_scores >= FIXED_THRESHOLD).astype(np.int8)).astype(np.int8)
+
+    per_repeat = []
+    for repeat in range(oof_scores.shape[0]):
+        covered = oof_predictions[repeat] >= 0
+        if not covered.any():
+            per_repeat.append({**_score_metrics(np.array([]), np.array([]), np.array([])), 'n': 0})
+            continue
+        per_repeat.append({
+            **_score_metrics(labels[covered], oof_predictions[repeat][covered], oof_scores[repeat][covered]),
+            'n': int(covered.sum()),
+        })
+
+    covered_mask = ~np.isnan(oof_scores)
+    covered_count = covered_mask.sum(axis=0)
+    consensus_scores = np.full(n_records, np.nan, dtype=np.float64)
+    has_any = covered_count > 0
+    consensus_scores[has_any] = np.nansum(oof_scores[:, has_any], axis=0) / covered_count[has_any]
+
+    consensus_covered = ~np.isnan(consensus_scores)
+    consensus_predictions = np.full(n_records, -1, dtype=np.int8)
+    consensus_predictions[consensus_covered] = (
+        consensus_scores[consensus_covered] >= FIXED_THRESHOLD
+    ).astype(np.int8)
+
+    diagnostics = {
+        'strategy': 'none',
+        'threshold': FIXED_THRESHOLD,
+        'n_records': int(n_records),
+        'coverage': float(np.mean(consensus_covered)) if n_records else 0.0,
+        'n_folds_fitted': 0,
+        'n_synthetic_total': 0,
+        'smote_fallback_folds': 0,
+        'mean_train_rows': float('nan'),
+        'predicted_positive_rate': (float(np.mean(consensus_predictions[consensus_covered]))
+                                    if consensus_covered.any() else float('nan')),
+        # 7/8 of the 80% training fold — see the docstring.
+        'baseline_trained_on_fraction': (1.0 - 1.0 / N_SPLITS) * (1.0 - INNER_VALIDATION_SHARE),
+        'reused_from_cache': True,
+        'source_npz': str(npz_path),
+        'degenerate': False,
+    }
+    for metric in ('accuracy', 'f1_macro', 'balanced_accuracy', 'recall', 'auroc', 'auprc'):
+        diagnostics[f'{metric}_mean'] = _mean_of_finite([r[metric] for r in per_repeat])
+        diagnostics[f'{metric}_std'] = _std_of_finite([r[metric] for r in per_repeat])
+    diagnostics.update(fold_prevalences(fold_assignment, labels))
+
+    return {
+        'admission_ids': admission_ids,
+        'y': labels,
+        'oof_scores': oof_scores,
+        'oof_predictions': oof_predictions,
+        'consensus_scores': consensus_scores,
+        'consensus_predictions': consensus_predictions,
+        'per_repeat': per_repeat,
+        'balance_log': {},
+        'train_accuracy': float('nan'),
+        'train_f1_macro': float('nan'),
+        'diagnostics': diagnostics,
+    }
+
+
+def evaluate_balance_impact_cv(
+    raw_dataset: Any,
+    datasets: Dict[str, Any],
+    target_label: str,
+    strategies: Tuple[str, ...] = STRATEGIES,
+    baseline_npz_path: str = None,
+    refit_baseline: bool = False,
+    return_diagnostics: bool = False,
+    oof_output_path: str = None,
+) -> tuple:
+    """Score every (arm, strategy) pair against the unbalanced baseline.
+
+    `datasets` is the arm map to sweep — `{'raw': raw_dataset}` today, the full
+    13-arm map later; nothing in here assumes the smaller case. `raw_dataset` is
+    separate because the partition is always drawn on the raw cohort and inherited
+    by every arm via `project_to_arm`, exactly as in `evaluate_filter_impact_cv`.
+    That is what makes the arms paired, and it is also what lets stage F's cached
+    scores be dropped in as the baseline: same PARTITION_SEED, same folds.
+
+    Returns the **same five positions** as the two older sweeps so the existing
+    table and plot helpers work unchanged:
+
+        [0] mean in-fold training accuracy   (NaN for a cache-reused baseline)
+        [1] out-of-fold accuracy at 0.5, mean across repeats
+        [2] mean in-fold training macro F1   (NaN for a cache-reused baseline)
+        [3] out-of-fold macro F1 at 0.5, mean across repeats
+        [4] (statistic, pvalue) from the paired, correctness-based McNemar
+
+    Index 0 is `<first arm> / none`, the baseline every other entry is compared
+    against — the same positional convention `filter_impact_plot` and the
+    comparison notebook rely on. The richer metrics (balanced accuracy, recall,
+    AUROC, AUPRC) do not fit in five positions and live in the diagnostics
+    sidecar; the tuple shape is frozen because
+    `comparison/pipeline_comparison.ipynb` unpacks it with a strict five-target
+    assignment that raises on six.
+
+    `baseline_npz_path` points at stage F's `<label>_oof_scores_cv.npz`. With
+    `refit_baseline=True` the 'none' arm is refitted at 0.5 with no inner
+    validation split instead, which costs 5 x n_repeats fits per arm but removes
+    the training-set-size confound described in `baseline_from_cached_scores`.
+    """
+    unknown = set(strategies) - set(STRATEGIES)
+    if unknown:
+        raise ValueError(f"unknown strategies {sorted(unknown)}; expected from {STRATEGIES}")
+    if 'none' in strategies and baseline_npz_path is None and not refit_baseline:
+        raise ValueError(
+            "the 'none' arm needs either baseline_npz_path (reuse stage F's cached "
+            "scores) or refit_baseline=True"
+        )
+
+    label_index = raw_dataset.label_index_map[target_label]
+
+    for name, dataset in {'raw': raw_dataset, **datasets}.items():
+        if getattr(dataset, 'admission_ids', None) is None:
+            raise ValueError(
+                f"arm '{name}' has no admission_ids; run rerun/regen_admission_ids.py "
+                "and load the sidecar before calling this."
+            )
+
+    raw_ids = np.asarray(raw_dataset.admission_ids, dtype=np.int64)
+    _, raw_labels = _flatten_whole_dataset(raw_dataset, label_index)
+
+    assignment = build_fold_assignment(raw_ids, raw_labels)
+    labels_by_id = {int(i): int(y) for i, y in zip(raw_ids, raw_labels)}
+    partition_fingerprint = fingerprint(raw_ids, raw_labels)
+
+    # Flat (arm, strategy) ordering, arms outermost, so index 0 is the first
+    # arm's 'none' and the layout generalises unchanged from 1 arm to 13.
+    ordered_pairs = [(arm, strategy) for arm in datasets for strategy in strategies]
+    results_by_pair: Dict[Tuple[str, str], Dict[str, Any]] = {}
+
+    for arm, strategy in ordered_pairs:
+        dataset = datasets[arm]
+        arm_ids = np.asarray(dataset.admission_ids, dtype=np.int64)
+        arm_assignment = project_to_arm(arm_ids, raw_ids, assignment)
+
+        if strategy == 'none' and not refit_baseline:
+            results_by_pair[(arm, strategy)] = baseline_from_cached_scores(
+                baseline_npz_path, arm, arm_assignment
+            )
+        else:
+            results_by_pair[(arm, strategy)] = evaluate_dataset_label_cv_balanced(
+                dataset, arm_ids, label_index, arm_assignment, strategy
+            )
+
+    training_averages, testing_averages = [], []
+    training_f1s, testing_f1s, mcnemar_results = [], [], []
+    diagnostics = {}
+
+    baseline = results_by_pair[ordered_pairs[0]]
+
+    for pair in ordered_pairs:
+        result = results_by_pair[pair]
+        name = f"{pair[0]} / {pair[1]}"
+
+        training_averages.append(result['train_accuracy'])
+        testing_averages.append(result['diagnostics']['accuracy_mean'])
+        training_f1s.append(result['train_f1_macro'])
+        testing_f1s.append(result['diagnostics']['f1_macro_mean'])
+
+        statistic, p_value, detail = calculate_mcnemar_paired(
+            baseline['consensus_predictions'], baseline['admission_ids'],
+            result['consensus_predictions'], result['admission_ids'],
+            labels_by_id,
+        )
+        mcnemar_results.append((statistic, p_value))
+
+        diagnostics[name] = {
+            **result['diagnostics'],
+            'arm': pair[0],
+            'per_repeat': result['per_repeat'],
+            'balance_log': result['balance_log'],
+            'mcnemar': detail,
+            'partition_fingerprint': partition_fingerprint,
+        }
+
+    results = (training_averages, testing_averages, training_f1s, testing_f1s, mcnemar_results)
+
+    if oof_output_path is not None:
+        payload = {'raw_admission_ids': raw_ids, 'raw_labels': raw_labels,
+                   'fold_assignment': assignment}
+        for pair in ordered_pairs:
+            slug = f"{pair[0]}__{pair[1]}".replace(' ', '_').lower()
+            result = results_by_pair[pair]
+            payload[f'{slug}__admission_ids'] = result['admission_ids']
+            payload[f'{slug}__oof_scores'] = result['oof_scores'].astype(np.float32)
+            payload[f'{slug}__consensus_predictions'] = result['consensus_predictions']
+        np.savez_compressed(oof_output_path, **payload)
+
+    if not return_diagnostics:
+        return results
+
+    return results + (diagnostics,)

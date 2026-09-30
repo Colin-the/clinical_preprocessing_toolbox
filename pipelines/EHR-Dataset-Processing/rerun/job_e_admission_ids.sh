@@ -3,8 +3,8 @@
 #SBATCH --job-name=ehr-admission-ids
 #SBATCH --array=0-4
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=100G
-#SBATCH --time=6:00:00
+#SBATCH --mem=16G
+#SBATCH --time=2:00:00
 #SBATCH --output=rerun/logs/e_admission_ids_%A_%a.log
 
 # Keep `set` below the #SBATCH block — see job_a_fill_missing.sh.

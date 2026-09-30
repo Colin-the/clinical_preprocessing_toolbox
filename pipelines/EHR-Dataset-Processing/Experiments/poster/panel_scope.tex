@@ -1,0 +1,76 @@
+% Standalone poster panel: study scope, code and contact.
+%
+% Same type, palette and panel furniture as beyond_the_model_poster.tex, at the size
+% of the Take-aways box (257 x 128 mm), so the PDF drops into the poster at 100%.
+% Build from the repo root (the \input path is relative to it):
+%   lualatex -output-directory=paper_figures/poster/standalone Experiments/poster/panel_scope.tex
+\documentclass{article}
+\usepackage[paperwidth=257mm, paperheight=128mm, margin=0mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{qrcode}
+\usepackage{microtype}
+
+\def\RepoURL{}   % set to the GitHub URL to print a QR code, as in the poster footer
+
+\setmainfont{SourceSansPro}[Extension=.otf, UprightFont=*-Regular,
+  BoldFont=*-Semibold, ItalicFont=*-RegularIt, BoldItalicFont=*-SemiboldIt]
+\newfontfamily\serif{SourceSerifPro}[Extension=.otf, UprightFont=*-Semibold,
+  BoldFont=*-Bold]
+\setmonofont{FiraMono}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-Medium]
+\newcommand\body{\fontsize{25}{30}\selectfont}
+\renewcommand\small{\fontsize{21}{25}\selectfont}
+
+\definecolor{ink}{HTML}{0E1618}
+\definecolor{bodytext}{HTML}{2C3C40}
+\definecolor{muted}{HTML}{61767A}
+\definecolor{ground}{HTML}{EEF2F2}
+\definecolor{teal}{HTML}{0D6B6B}
+\definecolor{rust}{HTML}{A4552B}
+\definecolor{slate}{HTML}{4A6572}
+\pagecolor{white}
+\color{bodytext}
+
+\input{paper_figures/poster/numbers.tex}
+
+\setlength\parindent{0pt}
+\setlength\parskip{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\pagestyle{empty}
+
+\newcommand\heading[3]{%
+  {\ttfamily\bfseries\fontsize{32}{38}\selectfont\color{#2}#1}\hspace{6mm}%
+  {\serif\fontsize{36}{42}\selectfont\color{ink}#3}\par\vspace{6mm}}
+\newcommand\gap{\par\vspace{5mm}}
+\newcommand\level[2]{\leavevmode{\ttfamily\bfseries\color{#1}#2}}
+
+\begin{document}
+\noindent\begin{tcolorbox}[enhanced, width=257mm, height=128mm, colback=white,
+   frame hidden, arc=0pt, boxrule=0pt, boxsep=0pt, left=10mm, right=10mm, top=9mm,
+   bottom=8mm, borderline north={3mm}{0pt}{ink}, before upper={\body\raggedright}]
+% Inner height: 128 mm less the 9 + 8 mm padding; the minipage lets \vfill work.
+\begin{minipage}[t][111mm][t]{\linewidth}
+\heading{14}{ink}{Scope}
+{\renewcommand\arraystretch{1.08}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{34mm}>{\raggedright\arraybackslash}X@{}}
+\level{slate}{DATA}   & MIMIC-III, \NRaw\ ICU stays, mean hourly aggregation \\
+\level{slate}{MODEL}  & random forest, 5-fold\,×\,4 cross-validation \\
+\level{slate}{TEST}   & McNemar at the baseline's decision threshold \\
+\end{tabularx}}
+\gap
+One database, seven vitals, two tasks, one classifier: whether the effects hold
+elsewhere is untested.
+\par\vfill
+{\small\color{muted}%
+\begin{minipage}[b]{\ifx\RepoURL\empty\linewidth\else 185mm\fi}
+\textbf{Code} \ifx\RepoURL\empty available on GitHub\else\texttt{\RepoURL}\fi\par
+\textbf{Contact} \texttt{wzhang25@uoguelph.ca}
+\end{minipage}%
+\ifx\RepoURL\empty\else\hfill\qrcode[height=30mm]{\RepoURL}\fi\par}
+\end{minipage}
+\end{tcolorbox}
+\end{document}

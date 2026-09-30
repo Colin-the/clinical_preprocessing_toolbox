@@ -1,0 +1,11 @@
+[mean deviation/mortality] loading 1 arm(s) ...
+[mean deviation/mortality] loaded in 5.2s (raw 46,032 records)
+[mean deviation/mortality] strategies=['none', 'oversample', 'undersample', 'smote'] baseline=reused from stage F ~60 forest fits
+[mean deviation/mortality] evaluated in 3.4 min
+[mean deviation/mortality] wrote mortality_balance_impact_cv.pkl and mortality_balance_impact_cv_diagnostics.json
+    arm / strategy                         acc      f1  bal_acc  recall   auroc   auprc  pos_rate    synth
+    raw / none                          0.9037  0.5023   0.5132  0.0292  0.7178  0.2385    0.0038        0
+    raw / oversample                    0.8977  0.4876   0.5039  0.0159  0.6483  0.1572    0.0071        0
+    raw / undersample                   0.6013  0.4930   0.6545  0.7205  0.7012  0.1781    0.4381        0
+    raw / smote                         0.9023  0.4836   0.5036  0.0096  0.6986  0.1802    0.0022  594,272
+[mean deviation/mortality] baseline trained on 0.70 of the cohort vs 0.80 for the balanced arms

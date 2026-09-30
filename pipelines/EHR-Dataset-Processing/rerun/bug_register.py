@@ -1447,7 +1447,32 @@ dict(
         note=('First pass marked RESOLVED; blind audit found the fix exists only in '
              "the CV path while IMPACT_SUFFIX='' and paper_figures still consume the "
              "legacy single-holdout pickles — PARTIAL per the register's own "
-             'guardrail (same rule as E-05/E-06).'),
+             'guardrail (same rule as E-05/E-06).\n'
+             '\n'
+             '2026-08-26 — figure half done, register half outstanding. '
+             '`Experiments/render_paper_figures.py` grew an `--impact-suffix` switch '
+             "defaulting to '_cv' (plus `--out` and `--only`), and `paper_figures/` "
+             'was re-rendered from the CV artifacts via the new '
+             '`rerun/job_j_figures.sh`; the twelve legacy-design PDFs moved to '
+             '`_deprecated/pre_cv_figures_2026-08-26/paper_figures/` (MANIFEST §9). '
+             'Behaviour-preservation of the refactor was checked before the switch: '
+             "rendered with `--impact-suffix ''`, all four filter-impact PDFs and "
+             'mcnemar_icu carry annotations identical to the archived set. '
+             "Stays PARTIAL because notebook.py:566 `IMPACT_SUFFIX` is still '', so "
+             'the notebook and the published figures now disagree on design — the '
+             'one-line flip there is what closes this.\n'
+             '\n'
+             'Separate figure defect found and fixed while re-rendering, worth its '
+             'own id if anyone wants one: `paper_mcnemar_plot` clamped p with '
+             '`max(p, 1e-20)` and then annotated each bar with the *clamped* value. '
+             'Latent under the legacy pickles (smallest icu p ~1e-16, nothing '
+             'reaches the clamp) but live under the CV mortality pickle, where '
+             '`fill missing data` 1.5e-123, `long missing segment` 1.3e-147, '
+             '`long gap` 1.2e-62 and `high invalid data` 3.2e-42 would every one '
+             'have been drawn as an identical bar labelled "1.0e-20". The height '
+             'cap stays (an axis running to 147 collapses the 0.05/0.0001 rules '
+             'onto the baseline) but capped bars are hatched, the cap is stated in '
+             'the legend, and the annotation is always the measured p.'),
     ),
 ),
 dict(
@@ -2015,7 +2040,7 @@ dict(
     ),
 ),
 dict(
-    id='E-11', stage=EVAL, severity=HIGH, status=OPEN, verified=True,
+    id='E-11', stage=EVAL, severity=HIGH, status=PARTIAL, verified=True,
     name='No class weighting anywhere on a 10%-prevalence problem',
     overview=('Every forest in the repository is constructed as '
                 '`RandomForestClassifier(n_estimators=300, random_state=seed)` with '
@@ -2063,18 +2088,60 @@ dict(
                  '\n'
                  'First-pass measurements retained: POSTMORTEM.md 2.4 flagged this '
                  'for v1; grep confirms it is still absent.'),
-    fix=("Add `class_weight='balanced_subsample'` to the three constructors "
-           '(guarded so the cuML path degrades to explicit minority oversampling of '
-           'the fit split), and report PR-AUC / recall at fixed precision alongside '
-           'accuracy so the minority class is visible in the outputs rather than '
-           'only in the threshold.'),
-    verification=('Re-fit one arm with and without weighting on the same fold and '
-                    "compare mortality recall and macro F1 at the fold's own "
-                    'threshold; the weighted model should reach comparable macro F1 '
-                    'at a threshold much closer to 0.5. Check that `mean_threshold` '
-                    'in the `_cv` diagnostics moves toward 0.5 — currently 0.112 for '
-                    '`mean deviation` raw mortality — which is the direct signature '
-                    'of the classifier, not the threshold, doing the balancing.'),
+    fix=('Partially addressed 2026-08-20 by stage H, a fourth evaluation path that '
+           'corrects the imbalance in the training data rather than at the decision '
+           'layer. `Managers/balancing_manager.py` implements random oversampling, '
+           'random undersampling and a mask-aware SMOTE; '
+           '`evaluate_dataset_label_cv_balanced` '
+           '(`Managers/evaluation_manager.py`) resamples each training fold to 1:1 and '
+           'scores the held-out fold at a fixed 0.5 with no inner-validation split, so '
+           'the resampler and the threshold are never both moving at once. AUROC and '
+           'AUPRC are now reported per arm, which is the PR-AUC this entry asked for. '
+           'Driver `rerun/regen_balance_cv.py` (`job_h_balance_cv.sh`), verifier '
+           '`rerun/verify_balance.py` (`job_i_verify_balance.sh`), results in '
+           '`<label>_balance_impact_cv.pkl`.\n'
+           '\n'
+           'Still open: the three original fit sites (`:55`, `:175`, `:444`) are '
+           'unchanged, so every legacy and `_cv` number in the repo — and therefore '
+           'every current figure — still comes from an unweighted forest. Closing this '
+           "entry needs `class_weight='balanced_subsample'` on those constructors (or "
+           'the stage H resampler wired into them) and the affected artifacts '
+           'recomputed.\n'
+           '\n'
+           'Note on the SMOTE variant, because it is not the textbook one: '
+           '`RecordEHR.to_tensor()` zero-fills missing values, so 0 means "never '
+           'measured" across 39% of the feature matrix. Plain SMOTE would both '
+           'interpolate real readings against structural zeros and, worse, build its '
+           'neighbour graph mostly out of missingness-pattern overlap. `smote_masked` '
+           "finds neighbours under sklearn's `nan_euclidean` (co-observed cells only), "
+           'has each synthetic record inherit its base parent\'s missingness mask, and '
+           'interpolates only where both parents measured.'),
+    fixed='2026-08-20 (partial — stage H only)',
+    verification=('For stage H: `python Managers/balancing_manager.py` (34 checks — '
+                    'balance reached, provenance sound, SMOTE never fills a cell its '
+                    'base parent had missing, degenerate folds no-op) and '
+                    '`sbatch rerun/job_i_verify_balance.sh`, which replays all 20 folds '
+                    'against the real cohort asserting no held-out record and no '
+                    'synthetic row reaches a test fold, then refits on shuffled labels '
+                    'per strategy expecting AUC ~ 0.5. Measured baseline to beat, '
+                    '`mean`/mortality raw at 0.5 (refit baseline, job 20203046): accuracy '
+                    '0.9127, recall 0.1157, macro F1 0.5789, AUROC 0.7927, AUPRC '
+                    '0.3928, predicted positive rate '
+                    '0.0128 against a true prevalence of 0.0966 — i.e. the unweighted '
+                    'forest buys its accuracy by almost never predicting the minority '
+                    'class. Balancing should raise recall and balanced accuracy '
+                    'sharply; watch whether AUROC/AUPRC move at all, since those are '
+                    'threshold-free and answer whether the model actually discriminates '
+                    'better or merely relabels.\n'
+                    '\n'
+                    'For the still-open half: re-fit one arm with and without weighting '
+                    "on the same fold and compare mortality recall and macro F1 at the "
+                    "fold's own threshold; the weighted model should reach comparable "
+                    'macro F1 at a threshold much closer to 0.5. Check that '
+                    '`mean_threshold` in the `_cv` diagnostics moves toward 0.5 — '
+                    'currently 0.112 for `mean deviation` raw mortality — which is the '
+                    'direct signature of the classifier, not the threshold, doing the '
+                    'balancing.'),
     found='POSTMORTEM.md 2.4, still live',
     audit=dict(
         date='2026-08-12', verdict='CONFIRMED-WITH-CORRECTIONS', mode='cluster C5',

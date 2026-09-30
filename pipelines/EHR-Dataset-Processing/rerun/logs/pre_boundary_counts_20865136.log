@@ -1,0 +1,27 @@
+loading /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/processed_record_ehr.pkl ...
+46,032 records in 10.7s
+columns: ['heart rate', 'systolic blood pressure', 'diastolic blood pressure', 'mean blood pressure', 'respiration rate', 'temperature', 'oxygen saturation']
+  5,000/46,032 (8s)
+  10,000/46,032 (15s)
+  15,000/46,032 (23s)
+  20,000/46,032 (30s)
+  25,000/46,032 (39s)
+  30,000/46,032 (46s)
+  35,000/46,032 (54s)
+  40,000/46,032 (61s)
+  45,000/46,032 (69s)
+
+vital                               total  newly kept  at old hi   drop hi   drop lo
+------------------------------------------------------------------------------------
+heart rate                      1,158,579           0          0       289       501
+systolic blood pressure         1,023,548           0          0     2,129     2,638
+diastolic blood pressure        1,020,811           0          0        43     2,504
+mean blood pressure             1,033,225          12          1     2,082       900
+respiration rate                1,126,248           2         11       956     7,656
+temperature                       300,843           0          0     1,021       364
+oxygen saturation               1,022,161     300,953    137,093       711       136
+
+fill-missing guard flips (mean): {'oxygen saturation': 1984}
+fill-missing guard flips (median): {'oxygen saturation': 2024}
+
+wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/rerun/logs/boundary_counts.json

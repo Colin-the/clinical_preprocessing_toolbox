@@ -1,0 +1,350 @@
+% "Beyond the Model" — A0 portrait conference poster.
+%
+% Build (from the repo root, which every path below is relative to):
+%   sbatch rerun/job_m_poster.sh               figures + numbers + typeset
+%   sbatch rerun/job_m_poster.sh --tex-only    typeset only
+%
+% Every data value is a macro from paper_figures/poster/numbers.tex, written by
+% Experiments/render_poster_figures.py from the same artifacts and cross-checks as
+% the talk. Do not type numbers into this file; the one exception is the published
+% Table III row, quoted from the paper.
+%
+% Placeholders, safe to leave empty:
+%   \RepoURL   set it to the GitHub URL to print a QR code in the footer
+%   logos      drop PDFs into Experiments/poster/logos/ (guelph, stjoes, mcmaster)
+\documentclass{article}
+\usepackage[paperwidth=841mm, paperheight=1189mm, margin=0mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{qrcode}
+\usepackage{microtype}
+
+\def\RepoURL{}   % e.g. \def\RepoURL{https://github.com/<org>/<repo>}  (\def, not \newcommand: the footer tests it with \ifx)
+
+% ── type ──────────────────────────────────────────────────────────────────────
+\setmainfont{SourceSansPro}[Extension=.otf, UprightFont=*-Regular,
+  BoldFont=*-Semibold, ItalicFont=*-RegularIt, BoldItalicFont=*-SemiboldIt]
+\newfontfamily\serif{SourceSerifPro}[Extension=.otf, UprightFont=*-Semibold,
+  BoldFont=*-Bold]
+\setmonofont{FiraMono}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-Medium]
+\newcommand\body{\fontsize{25}{30}\selectfont}
+\renewcommand\small{\fontsize{21}{25}\selectfont}
+\newcommand\num[1]{{\ttfamily\bfseries #1}}
+% p = value in the body face. Math mode would switch to Computer Modern.
+\newcommand\p[1]{\textit{p}\,=\,#1}
+
+% ── colour: the deck's palette ────────────────────────────────────────────────
+\definecolor{ink}{HTML}{0E1618}
+\definecolor{bodytext}{HTML}{2C3C40}
+\definecolor{muted}{HTML}{61767A}
+\definecolor{rule}{HTML}{CDD8D9}
+\definecolor{ground}{HTML}{EEF2F2}
+\definecolor{sunk}{HTML}{E4EAEA}
+\definecolor{teal}{HTML}{0D6B6B}
+\definecolor{rust}{HTML}{A4552B}
+\definecolor{slate}{HTML}{4A6572}
+\definecolor{green}{HTML}{3D7A52}
+\definecolor{icu}{HTML}{2F4B7C}
+\definecolor{mort}{HTML}{9C6B98}
+\pagecolor{ground}
+\color{bodytext}
+
+\input{paper_figures/poster/numbers.tex}
+\newcommand\fig[1]{paper_figures/poster/figures/#1.pdf}
+
+% ── furniture ─────────────────────────────────────────────────────────────────
+\setlength\parindent{0pt}
+\setlength\parskip{0pt}
+\raggedright
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+% A white panel with a 3 mm accent rule on top, like the deck's panel + rule.
+% Inner width is 237 mm in a column; the render script draws figures to that width.
+\newtcolorbox{panel}[1][teal]{enhanced, colback=white, frame hidden, arc=0pt,
+  boxrule=0pt, boxsep=0pt, left=10mm, right=10mm, top=9mm, bottom=8mm,
+  borderline north={3mm}{0pt}{#1}, before skip=0pt, after skip=0pt,
+  before upper={\body\raggedright}}
+
+% Numbered heading that states the finding.
+\newcommand\heading[3]{%
+  {\ttfamily\bfseries\fontsize{32}{38}\selectfont\color{#2}#1}\hspace{6mm}%
+  {\serif\fontsize{36}{42}\selectfont\color{ink}#3}\par\vspace{6mm}}
+
+\renewcommand\caption[1]{\par\vspace{3mm}{\small\color{muted}\itshape #1}\par}
+\newcommand\gap{\par\vspace{5mm}}
+\newcommand\level[2]{\leavevmode{\ttfamily\bfseries\color{#1}#2}}
+\newcommand\bul[1]{\par\hangindent=9mm\hangafter=1\makebox[9mm][l]{\color{teal}\textbullet}#1}
+
+% Columns are built twice: once at natural height to report fit, once at the
+% column's fixed height with \colgap as \vfill, so all three end level.
+\newlength\colheight
+\newsavebox\measure
+\newcommand\colgap{\par\vspace{10mm}}
+% Measured outside the tikzpicture: inside one, TikZ typesets with \nullfont and
+% the measurement comes out short.
+\newcommand\measurecolumn[3]{% name, width (mm), content macro
+  \setbox\measure\vbox{\hsize=#2mm\linewidth=#2mm\renewcommand\colgap{\par\vspace{10mm}}#3}%
+  \typeout{POSTER column #1: natural height
+    \the\dimexpr\ht\measure+\dp\measure\relax\space of \the\colheight}}
+\newcommand\placecolumn[3]{% x (mm), width (mm), content macro
+  \node[anchor=north west, inner sep=0pt] at ($(current page.north west)+(#1mm,-\coltop)$)
+    {\begin{minipage}[t][\colheight][t]{#2mm}\renewcommand\colgap{\par\vfill}#3\end{minipage}};%
+}
+
+% ── layout (mm) ───────────────────────────────────────────────────────────────
+% margin 20 · header 20–126 · hook 136–218 · columns 230–977 · band 989–1117
+% · footer 1127–1169. Columns 257 wide at x = 20, 292, 564; band boxes 529 + 257.
+\newcommand\coltop{230mm}
+\setlength\colheight{747mm}
+
+% ─────────────────────────────────────────────────────────────────────────────
+% Column 1 — background and method
+% ─────────────────────────────────────────────────────────────────────────────
+\newcommand\ColumnOne{%
+\begin{panel}[ink]
+\heading{1}{ink}{Filtering is a modelling choice}
+Clinical ML papers open with a filtering pipeline and rarely report what it
+removed. Any rule that edits or discards values changes the distribution, so
+the question is not \emph{did filtering help?} but \textbf{is it still the same
+problem?}
+\gap
+\bul{It can make a benchmark easier without making a model better.}
+\bul{It is not task-neutral: one filter can help one task and hurt another.}
+\bul{Pipelines standardise it; almost none characterise what it did.}
+\end{panel}
+\colgap
+\begin{panel}[ink]
+\heading{2}{ink}{One cohort, one model, 13 arms}
+\includegraphics{\fig{poster_pipeline}}
+\gap
+Two tasks on the same 168 features: {\color{icu}\textbf{prolonged ICU stay}}
+(>\,3 days; \PrevICURaw\ positive) and {\color{mort}\textbf{in-hospital
+mortality}} (\PrevMortRaw). Each filter is applied alone to the raw data, and
+every arm inherits the same folds, so arms are paired patient by patient.
+\end{panel}
+\colgap
+\begin{panel}[ink]
+\heading{3}{ink}{Eleven filters, three levels}
+\includegraphics{\fig{poster_levels}}
+\gap
+{\small
+\renewcommand\arraystretch{1.08}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{40mm}>{\raggedright\arraybackslash}X@{}}
+\level{teal}{VALUE}   & 7 per-vital ranges, e.g.\ heart rate \ThrHR, temperature
+                        \ThrTemp; and their union, \emph{all vitals} \\
+\level{slate}{FEATURE} & \emph{fill missing data}: fills empty cells (\ThrFill) \\
+\level{rust}{RECORD}  & \emph{long missing segment}: \ThrLMS \\
+\level{rust}{RECORD}  & \emph{long gap}: \ThrLG \\
+\level{rust}{RECORD}  & \emph{high invalid data}: \ThrHID \\
+\end{tabularx}}
+\gap
+\textbf{Only a record-level filter can delete a patient.}
+\end{panel}
+\colgap
+\begin{panel}[ink]
+\heading{4}{ink}{The raw data really is broken}
+The heart-rate column peaks at \num{\color{rust}9,999,999}\,bpm, a charting
+sentinel rather than a patient. Removing \HRRemoved\ of 1.16~million readings
+(\HRPctRemoved) takes the maximum to 459 and the standard deviation from 9,291
+to 24.
+\gap
+\includegraphics{\fig{poster_readings}}
+\caption{Implausible readings removed per vital by the value-level filters.}
+\gap
+Filtering is necessary. The question is what else it does.
+\end{panel}
+}
+
+% ─────────────────────────────────────────────────────────────────────────────
+% Column 2 — what the paper measured
+% ─────────────────────────────────────────────────────────────────────────────
+\newcommand\ColumnTwo{%
+\begin{panel}[slate]
+\heading{5}{slate}{Filtering moves the centroids}
+\includegraphics[width=\linewidth]{\fig{centroid_deviation_all_vitals_filter_mean}}
+\caption{Centroid shift per vital after the all-vitals filter, by outcome
+class (paper Fig.\ 3).}
+\gap
+Outliers are one-sided, so removing them moves the mean. Read across one
+vital's bars: if the classes move by different amounts, the filter treated
+them differently.
+\end{panel}
+\colgap
+\begin{panel}[slate]
+\heading{6}{slate}{\dots and it changes task difficulty}
+\includegraphics{\fig{poster_task_divergence}}
+\gap
+Same features, folds and model; only the filter changes. Accuracy moves both
+ways, often in opposite directions for the two tasks. The record-level filters
+move it most, for a reason shown in \S10.
+\end{panel}
+\colgap
+\begin{panel}[slate]
+\heading{7}{slate}{Did the predictions change?}
+\includegraphics{\fig{poster_mcnemar}}
+\gap
+McNemar's paired test ignores agreements and asks whether the filter fixed and
+broke equally many patients. All arms use the baseline's threshold. No per-vital
+filter is significant (all \textit{p}\,≥\,\PVitalMin).
+\end{panel}
+}
+
+% ─────────────────────────────────────────────────────────────────────────────
+% Column 3 — what the paper had no room for
+% ─────────────────────────────────────────────────────────────────────────────
+\newcommand\ColumnThree{%
+\begin{panel}[rust]
+\heading{8}{rust}{How many patients survive?}
+\includegraphics{\fig{poster_survivors}}
+\gap
+The value-level filters edit \ReadingsEdited\ of \Readings\ readings
+(\PctReadingsEdited) and remove no one. \emph{High invalid data} sounds lenient,
+tolerating \HIDTolerated\ blank cells in 168, yet keeps \textbf{\NHID\ of \NRaw}.
+\end{panel}
+\colgap
+\begin{panel}[rust]
+\heading{9}{rust}{The survivors are not random}
+\includegraphics{\fig{poster_prevalence}}
+\gap
+Record filters keep densely monitored stays, and ICU monitoring tracks acuity:
+missingness is informative. So they select sicker patients. Prolonged stay goes
+from a \PrevICURaw\ minority to a \textbf{\PrevICUHID\ majority}.
+\end{panel}
+\colgap
+\begin{panel}[rust]
+\heading{10}{rust}{The bars compare different people}
+\includegraphics{\fig{poster_population}}
+\gap
+The \emph{unchanged} baseline already scores worse on each filter's survivors
+(ICU, high invalid data: \BaseAccWholeICU\,→\,\BaseAccHIDicu). That is
+\ShiftHIDicu\ of the published \DeltaAccHIDicu. On the same \NHID\ stays at one
+threshold, the filter itself moves accuracy by \FixedDeltaHIDicu.
+\end{panel}
+\colgap
+\begin{panel}[rust]
+\heading{11}{rust}{McNemar only sees survivors}
+\includegraphics{\fig{poster_mcnemar_sample}}
+\gap
+Deleted patients never enter the test. High invalid data shifts the ICU base
+rate by \PrevShiftICUHID\ points, yet \p{\PHIDicu}: silence here is lost
+power, not a clean bill of health.
+\end{panel}
+}
+
+\begin{document}
+\measurecolumn{1}{257}{\ColumnOne}
+\measurecolumn{2}{257}{\ColumnTwo}
+\measurecolumn{3}{257}{\ColumnThree}
+\begin{tikzpicture}[remember picture, overlay]
+
+% ── header ────────────────────────────────────────────────────────────────────
+\fill[teal] ($(current page.north west)+(20mm,-22mm)$) rectangle ++(90mm,-3mm);
+\node[anchor=north west, inner sep=0pt] at ($(current page.north west)+(20mm,-31mm)$)
+  {\begin{minipage}[t]{600mm}
+   {\serif\fontsize{104}{108}\selectfont\color{ink}Beyond the Model}\par\vspace{4mm}
+   {\serif\fontsize{48}{56}\selectfont\color{bodytext}The critical role of data
+    filtering in clinical machine learning}\par\vspace{8mm}
+   {\fontsize{31}{38}\selectfont\color{ink}Noah Subedar*, Colin Campbell*, Wenjing
+    Zhang, Dan Perri, Sarah Culgin, Andrew Hamilton-Wright}\par\vspace{3mm}
+   {\fontsize{24}{30}\selectfont\color{muted}University of Guelph \textperiodcentered\
+    St.\ Joseph's Healthcare Hamilton \textperiodcentered\ The Research Institute of
+    St.\ Joe's Hamilton \textperiodcentered\ McMaster University
+    \quad * equal contribution}
+   \end{minipage}};
+
+% Logos, if supplied: stacked in the header's right-hand corner.
+\node[anchor=north east, inner sep=0pt] at ($(current page.north east)+(-20mm,-26mm)$)
+  {\begin{minipage}[t]{170mm}\raggedleft
+   \def\logo#1{\IfFileExists{Experiments/poster/logos/#1.pdf}%
+     {\includegraphics[height=30mm,width=170mm,keepaspectratio]{Experiments/poster/logos/#1.pdf}\par\vspace{7mm}}%
+     {\typeout{Missing logo: Experiments/poster/logos/#1.pdf}}}%
+   \logo{guelph}\logo{stjoes}\logo{mcmaster}%
+   \end{minipage}};
+
+% ── hook: the finding, readable from across the room ─────────────────────────
+\node[anchor=north west, inner sep=0pt] at ($(current page.north west)+(20mm,-136mm)$)
+  {\begin{tcolorbox}[enhanced, width=801mm, height=82mm, colback=ink, frame hidden,
+     arc=0pt, left=14mm, right=14mm, top=10mm, bottom=10mm, valign=center]
+   \begin{minipage}[c]{252mm}
+     \raggedright{\serif\fontsize{40}{48}\selectfont\color{white}Filtering is a
+      modelling choice. Count what you removed.}
+   \end{minipage}\hfill
+   \newcommand\tile[3]{\begin{minipage}[c]{155mm}
+     {\ttfamily\bfseries\fontsize{60}{64}\selectfont\color{#1}#2}\par\vspace{3mm}
+     \raggedright{\fontsize{23}{28}\selectfont\color{white}#3}\end{minipage}}%
+   \tile{teal!45}{0}{patients removed by the seven value-level filters}\hspace{12mm}%
+   \tile{rust!55}{\RemovedHID}{of \NRaw\ stays removed by one record-level filter}\hspace{12mm}%
+   \tile{rust!55}{\PrevICURaw\,→\,\PrevICUHID}{prolonged-stay prevalence
+     among its survivors}
+   \end{tcolorbox}};
+
+% ── three columns ─────────────────────────────────────────────────────────────
+\placecolumn{20}{257}{\ColumnOne}
+\placecolumn{292}{257}{\ColumnTwo}
+\placecolumn{564}{257}{\ColumnThree}
+
+% ── bottom band ───────────────────────────────────────────────────────────────
+\node[anchor=north west, inner sep=0pt] at ($(current page.north west)+(20mm,-989mm)$)
+  {\begin{tcolorbox}[enhanced, width=529mm, height=128mm, colback=white, frame hidden,
+     arc=0pt, boxrule=0pt, boxsep=0pt, left=10mm, right=10mm, top=9mm, bottom=8mm,
+     borderline north={3mm}{0pt}{ink}, before upper={\body\raggedright}]
+   \heading{12}{ink}{Three questions, asked together}
+   {\small\renewcommand\arraystretch{1.3}
+   \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash\hsize=.62\hsize}X>{\raggedright\arraybackslash\hsize=1.06\hsize}X>{\raggedright\arraybackslash\hsize=1.16\hsize}X>{\raggedright\arraybackslash\hsize=1.16\hsize}X@{}}
+   & \textbf{Centroid shift} & \textbf{McNemar vs.\ raw} & \textbf{Record accounting} \\[1mm]
+   \level{teal}{all vitals} & moves; the classes move largely together
+     & \p{\PAllVitalsMort} (mortality), \PAllVitalsICU\ (ICU): predictions unchanged
+     & \leavevmode{\color{teal}0 stays removed; \ReadingsEdited\ readings edited} \\[2mm]
+   \level{rust}{high invalid data} & large, and opposite in sign between the
+     mortality classes
+     & \p{\PHIDmort} (mortality), \PHIDicu\ (ICU), on only \NHID\ stays
+     & \leavevmode{\color{rust}\RemovedHID\ stays removed; ICU prevalence \PrevICURaw\,→\,\PrevICUHID} \\
+   \end{tabularx}}
+   \gap
+   Row one is artifact removal; row two is a different problem. The paper
+   published the first two columns. The third costs one call to
+   \texttt{len()}, and it explains the other two.
+   \end{tcolorbox}};
+
+\node[anchor=north west, inner sep=0pt] at ($(current page.north west)+(564mm,-989mm)$)
+  {\begin{tcolorbox}[enhanced, width=257mm, height=128mm, colback=white, frame hidden,
+     arc=0pt, boxrule=0pt, boxsep=0pt, left=10mm, right=10mm, top=9mm, bottom=8mm,
+     borderline north={3mm}{0pt}{teal}, before upper={\body\raggedright}]
+   \heading{13}{teal}{Take-aways}
+   \newcommand\take[2]{\par\hangindent=11mm\hangafter=1%
+     \makebox[11mm][l]{\ttfamily\bfseries\color{teal}#1}#2\par\vspace{5mm}}%
+   \take{1}{\textbf{Filtering is part of the method,} not housekeeping.}
+   \take{2}{\textbf{Level matters more than threshold.} \PctReadingsEdited\ of
+     readings edited, no one removed, versus \PctRemovedHID\ of stays gone.}
+   \take{3}{\textbf{Report the surviving n and its prevalence} beside every
+     metric, and score the baseline on the same survivors.}
+   \end{tcolorbox}};
+
+% ── footer ────────────────────────────────────────────────────────────────────
+\node[anchor=north west, inner sep=0pt] at ($(current page.north west)+(20mm,-1127mm)$)
+  {\begin{minipage}[t]{801mm}
+   \color{rule}\rule{801mm}{1.2mm}\par\vspace{4mm}
+   \fontsize{17}{22}\selectfont\color{muted}%
+   \begin{minipage}[t]{\ifx\RepoURL\empty 801mm\else 740mm\fi}
+   \textbf{Scope.} MIMIC-III (\NRaw\ ICU stays), mean hourly aggregation,
+   5-fold\,×\,4 cross-validation; McNemar at the baseline's decision threshold.
+   One database, seven vitals, two tasks, one classifier.
+   \textbf{References.} Johnson et al., MIMIC-III, \emph{Sci.\ Data} 2016 ·
+   Wang et al., MIMIC-Extract, \emph{CHIL} 2020 · McNemar, \emph{Psychometrika} 1947 ·
+   Youden, \emph{Cancer} 1950.
+   \textbf{Code.} \ifx\RepoURL\empty available on GitHub\else\texttt{\RepoURL}\fi.
+   Computation on nibi, Digital Research Alliance of Canada.
+   Contact: \texttt{wzhang25@uoguelph.ca}
+   \end{minipage}%
+   \ifx\RepoURL\empty\else\hfill\qrcode[height=38mm]{\RepoURL}\fi
+   \end{minipage}};
+
+\end{tikzpicture}
+\end{document}

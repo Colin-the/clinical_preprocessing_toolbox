@@ -1,0 +1,69 @@
+Output dir: paper_figures/slides_png
+Format: png @ 200 dpi
+Evaluation design: cross-validated (_cv)
+Groups: heatmap, centroid_deviation, filter_impact
+
+=== Observation-count heatmap ===
+  observation_count_heatmap_raw_mimic_iii ...
+    saved observation_count_heatmap_raw_mimic_iii.png
+
+=== Centroid deviations ===
+  centroid_deviation_all_vitals_filter_mean ...
+    saved centroid_deviation_all_vitals_filter_mean.png
+  centroid_deviation_high_invalid_data_filter_mean ...
+    saved centroid_deviation_high_invalid_data_filter_mean.png
+
+=== Filter impact ===
+  filter_impact_mortality_testing_accuracy_mean ...
+    saved filter_impact_mortality_testing_accuracy_mean.png
+  filter_impact_mortality_testing_f1_mean ...
+    saved filter_impact_mortality_testing_f1_mean.png
+  filter_impact_icu_testing_accuracy_mean ...
+    saved filter_impact_icu_testing_accuracy_mean.png
+  filter_impact_icu_testing_f1_mean ...
+    saved filter_impact_icu_testing_f1_mean.png
+
+Done.
+Output dir: paper_figures/slides_png
+Format: png @ 200 dpi
+Evaluation design: cross-validated (_cv)
+Groups: mcnemar
+McNemar operating point: baseline
+
+=== McNemar ===
+  mcnemar_icu_mean_baseline_threshold ...
+    -> mcnemar_icu_mean_baseline_threshold_plain
+    saved mcnemar_icu_mean_baseline_threshold_plain.png
+  mcnemar_mortality_mean_baseline_threshold ...
+    -> mcnemar_mortality_mean_baseline_threshold_plain
+    saved mcnemar_mortality_mean_baseline_threshold_plain.png
+
+Done.
+wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/mean/mortality_mcnemar_baseline_threshold.json
+    heart rate                 n=46,032  n01=  699 n10=  700  p=1
+    systolic blood pressure    n=46,032  n01=  816 n10=  761  p=0.1739
+    diastolic blood pressure   n=46,032  n01=  753 n10=  741  p=0.776
+    mean blood pressure        n=46,032  n01=  757 n10=  737  p=0.623
+    respiration rate           n=46,032  n01=  822 n10=  774  p=0.2394
+    temperature                n=46,032  n01=  756 n10=  721  p=0.3763
+    oxygen saturation          n=46,032  n01=  720 n10=  697  p=0.5589
+    fill missing data          n=46,032  n01=4,635 n10=2,944  p=1.231e-84
+    long missing segment       n=31,029  n01=1,128 n10=  725  p=6.88e-21
+    long gap                   n=20,323  n01=  352 n10=  925  p=1.076e-59
+    high invalid data          n= 1,369  n01=  115 n10=  173  p=0.0007547
+    all vitals                 n=46,032  n01=  818 n10=  836  p=0.676
+wrote /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/Data/mimic-iii/mean/icu_mcnemar_baseline_threshold.json
+    heart rate                 n=46,032  n01=  809 n10=  834  p=0.5538
+    systolic blood pressure    n=46,032  n01=  836 n10=  829  p=0.8831
+    diastolic blood pressure   n=46,032  n01=  854 n10=  831  p=0.592
+    mean blood pressure        n=46,032  n01=  879 n10=  801  p=0.06027
+    respiration rate           n=46,032  n01=  823 n10=  808  p=0.7289
+    temperature                n=46,032  n01=  844 n10=  843  p=1
+    oxygen saturation          n=46,032  n01=  770 n10=  774  p=0.9391
+    fill missing data          n=46,032  n01=3,614 n10=4,197  p=4.452e-11
+    long missing segment       n=31,029  n01=  781 n10=  808  p=0.5143
+    long gap                   n=20,323  n01=  666 n10=  646  p=0.5999
+    high invalid data          n= 1,369  n01=   71 n10=   80  p=0.5152
+    all vitals                 n=46,032  n01=  875 n10=  864  p=0.8105
+wrote paper_figures/slides/beyond_the_model_talk.pptx (2072 KB)
+deck: /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/paper_figures/slides/beyond_the_model_talk.pptx

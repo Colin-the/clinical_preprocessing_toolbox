@@ -2,7 +2,7 @@
 #SBATCH --account=def-wzhang25
 #SBATCH --job-name=ehr-verify-cv
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=100G
+#SBATCH --mem=32G
 #SBATCH --time=2:00:00
 #SBATCH --output=rerun/logs/g_verify_cv_%j.log
 

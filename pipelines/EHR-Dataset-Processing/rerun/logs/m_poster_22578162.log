@@ -1,0 +1,27 @@
+Output dir: paper_figures/poster/figures
+Format: pdf, type x1.5
+Evaluation design: cross-validated (_cv)
+Groups: centroid_deviation
+
+=== Centroid deviations ===
+  centroid_deviation_all_vitals_filter_mean ...
+    saved centroid_deviation_all_vitals_filter_mean.pdf
+  centroid_deviation_high_invalid_data_filter_mean ...
+    saved centroid_deviation_high_invalid_data_filter_mean.pdf
+
+Done.
+=== poster figures ===
+    saved poster_pipeline.pdf
+    saved poster_levels.pdf
+    saved poster_readings.pdf
+    saved poster_survivors.pdf
+    saved poster_task_divergence.pdf
+    saved poster_mcnemar.pdf
+    saved poster_prevalence.pdf
+    saved poster_population.pdf
+    saved poster_mcnemar_sample.pdf
+    wrote numbers.tex (42 macros)
+Missing logo: Experiments/poster/logos/guelph.pdf
+Missing logo: Experiments/poster/logos/stjoes.pdf
+Missing logo: Experiments/poster/logos/mcmaster.pdf
+poster: /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/paper_figures/poster/beyond_the_model_poster.pdf

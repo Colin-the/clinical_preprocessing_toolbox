@@ -1,0 +1,18 @@
+[mean deviation/mortality] loading 13 arms ...
+[mean deviation/mortality] loaded in 52.1s (raw 46,032 records)
+[mean deviation/mortality] evaluated in 11.3 min
+[mean deviation/mortality] wrote mortality_filter_impact_cv.pkl and mortality_filter_impact_cv_diagnostics.json
+[mean deviation/mortality] raw: oof_acc=0.6691 (+/-0.0157 across repeats) oof_f1=0.5302 n=46,032 coverage=1.000
+    raw                        n_paired=46,032 n01=    0 n10=    0
+    heart rate                 n_paired=46,032 n01=1,513 n10=  306
+    systolic blood pressure    n_paired=46,032 n01=1,034 n10=  436
+    diastolic blood pressure   n_paired=46,032 n01=  790 n10=  600
+    mean blood pressure        n_paired=46,032 n01=1,037 n10=  474
+    respiration rate           n_paired=46,032 n01=  982 n10=  535
+    temperature                n_paired=46,032 n01=1,467 n10=  295
+    oxygen saturation          n_paired=46,032 n01=1,172 n10=  338
+    fill missing data          n_paired=46,032 n01=3,133 n10=1,835
+    long missing segment       n_paired=   367 n01=  140 n10=   12
+    long gap                   n_paired=   251 n01=  135 n10=   60
+    high invalid data          n_paired=     0 n01=    0 n10=    0  <-- DEGENERATE
+    all vitals                 n_paired=46,032 n01=1,077 n10=  918

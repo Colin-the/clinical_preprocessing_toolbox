@@ -105,14 +105,26 @@ from Managers.visualization_manager_v2 import (  # noqa: E402
 DATASET_NAME = "mimic-iii"
 PLOT_THEME = "#191a1c"
 
+# Hard physiological ranges for the seven vitals, keyed by the repo-wide lowercase
+# names. `_remove_outliers` tests these as a CLOSED interval (`lo <= v <= hi`), so
+# the upper bound is a value the filter keeps, not the first one it rejects. Until
+# 2026-08-30 every table here sat one unit low (SpO2 99, so a perfectly normal — and
+# modal — reading of 100% was deleted as a charting error); see bug register F-02.
+#
+# Six copies of this table exist and they must stay literally identical. Drift
+# between them is what produced register entry R-30:
+#   Experiments/apply_dataset_filter.py     Experiments/notebook.py
+#   rerun/_common.py                        gallery/render_marimo_mimic_iii.py
+#   Experiments/fill_missing_data_analysis.py
+#   Experiments/render_paper_figures.py     (names/units only; ranges inert there)
 VITALS = {
-    "heart rate":             [(1, 599), "bpm"],
-    "systolic blood pressure": [(1, 399), "mmHg"],
-    "diastolic blood pressure": [(1, 299), "mmHg"],
-    "mean blood pressure":    [(1, 299), "mmHg"],
-    "respiration rate":       [(1, 69),  "breaths/min"],
-    "temperature":            [(21, 49), "C"],
-    "oxygen saturation":      [(1, 99),  "%"],
+    "heart rate":             [(1, 600), "bpm"],
+    "systolic blood pressure": [(1, 400), "mmHg"],
+    "diastolic blood pressure": [(1, 300), "mmHg"],
+    "mean blood pressure":    [(1, 300), "mmHg"],
+    "respiration rate":       [(1, 70),  "breaths/min"],
+    "temperature":            [(21, 50), "C"],
+    "oxygen saturation":      [(1, 100),  "%"],
 }
 VITAL_NAMES = list(VITALS.keys())
 VITAL_UNITS = [v[-1] for v in VITALS.values()]

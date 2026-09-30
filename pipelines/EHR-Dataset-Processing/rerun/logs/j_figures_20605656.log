@@ -1,0 +1,43 @@
+Output dir: /home/ccampb47/work/clinical_preprocessing_toolbox/pipelines/EHR-Dataset-Processing/paper_figures
+Evaluation design: cross-validated (_cv)
+Groups: centroid_density, heatmap, centroid_deviation, filter_impact, mcnemar, ecdf
+
+=== Centroid density (raw) ===
+  centroid_density_raw_mimic_iii ...
+    saved centroid_density_raw_mimic_iii.pdf
+  centroid_density_raw_mimic_iii_full_range ...
+    saved centroid_density_raw_mimic_iii_full_range.pdf
+
+=== Observation-count heatmap ===
+  observation_count_heatmap_raw_mimic_iii ...
+    saved observation_count_heatmap_raw_mimic_iii.pdf
+
+=== Centroid deviations ===
+  centroid_deviation_all_vitals_filter_mean ...
+    saved centroid_deviation_all_vitals_filter_mean.pdf
+  centroid_deviation_high_invalid_data_filter_mean ...
+    saved centroid_deviation_high_invalid_data_filter_mean.pdf
+
+=== Filter impact ===
+  filter_impact_mortality_testing_accuracy_mean ...
+    saved filter_impact_mortality_testing_accuracy_mean.pdf
+  filter_impact_mortality_testing_f1_mean ...
+    saved filter_impact_mortality_testing_f1_mean.pdf
+  filter_impact_icu_testing_accuracy_mean ...
+    saved filter_impact_icu_testing_accuracy_mean.pdf
+  filter_impact_icu_testing_f1_mean ...
+    saved filter_impact_icu_testing_f1_mean.pdf
+
+=== McNemar ===
+  mcnemar_icu_mean ...
+    saved mcnemar_icu_mean.pdf
+  mcnemar_mortality_mean ...
+    saved mcnemar_mortality_mean.pdf
+
+=== ECDF grid (fill missing data) ===
+  ecdf_fill_missing_data_mean_4x2 ...
+    saved ecdf_fill_missing_data_mean_4x2.pdf
+  ecdf_fill_missing_data_mean_2x4 ...
+    saved ecdf_fill_missing_data_mean_2x4.pdf
+
+Done.

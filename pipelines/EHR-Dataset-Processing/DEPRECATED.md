@@ -23,10 +23,11 @@ file is the short do-not-reuse ledger on top of it.
 | `_deprecated/**` (toolbox root) | Archived artifacts | Pre-fix pickles, superseded notebooks, stale manifests, deliberately set aside | The live tree | `_deprecated/MANIFEST.md` |
 | `_deprecated/pre_bugfix_snapshot_2026-08-05/Data/` | Superseded data | Pre `fill_missing_data_filter` / training-F1 / sklearn-estimator fixes | `Data/<dataset>/<agg>/` in the live tree | MANIFEST §2 |
 | `_deprecated/pre_split_fix_2026-08-10/{Data,paper_figures}/` | Superseded data + figures | Validation split was merged into test before 2026-08-10 | Live `Data/` and `paper_figures/` | MANIFEST §8 |
+| `_deprecated/pre_cv_figures_2026-08-26/paper_figures/` | Superseded figures | Rendered from the legacy single-holdout pickles; the live set reads `_cv` | Live `paper_figures/` | MANIFEST §9 |
+| `_deprecated/pre_spo2_fix_2026-08-30/` + `$SCRATCH/ehr_pre_spo2_fix_2026-08-30/` | Superseded data + figures | Built with the old vital ranges, which deleted 29.4% of all SpO2 readings. Nine of thirteen arms invalid | Live `Data/`, `Logs/`, `paper_figures/` | MANIFEST §10 |
 | `_deprecated/superseded_notebooks/MIMIC_Extract/` | Superseded notebooks | Four earlier links in the Mar 19 → Apr 01 → Apr 24 → May 11 lineage | `notebooks/curated_mimic_iii_analysis_executed copy 2.ipynb` | MANIFEST §3 |
 | `_deprecated/stale_manifests/graphs_manifest_backup.json` | Stale manifest | 888 records, 45 superseded | `gallery/graphs_manifest.json` | MANIFEST §4 |
-| `rerun/regen_fill_missing.py` | Superseded stage script | One-off regeneration, already run | Current `rerun/` stages (below) | Audit guardrail 8 |
-| `rerun/regen_centroids.py` | Superseded stage script | One-off regeneration, already run | Current `rerun/` stages (below) | Audit guardrail 8 |
+| `rerun/regen_fill_missing.py` | Superseded stage script | Stage A, hardcoded to the single `fill missing data` arm. Kept as the record of the 2026-08-05 rerun | `rerun/regen_filtered_datasets.py` (stage K), which does any arm | Audit guardrail 8; MANIFEST §10 |
 | `_recompute_centroids_cpu.py` (repo root) | Superseded one-off | CPU centroid recompute; also carries a 7th stale copy of the `FILTERS` table | `Managers/evaluation_manager.py` centroid functions | Audit guardrail 8; R-32 |
 | `~/work/fix_zeros_patch.py` | Abandoned patch | Never integrated; predates the consolidated toolbox | Nothing — the zero-handling question is live as **R-21** | Audit guardrail 8 |
 | `~/work/pipeline_comparison copy.ipynb` | Stray copy | Ad-hoc duplicate outside the toolbox | `comparison/pipeline_comparison.ipynb` | Audit guardrail 8 |
@@ -67,8 +68,11 @@ Things that have been mistaken for dead code:
 | `Managers/visualization_manager_v2.py` | **The only** visualization manager. There is no v1 in this repo — do not go looking for one. |
 | `comparison/pipeline_comparison.ipynb` | Live cross-pipeline comparison notebook. |
 | `comparison/_gen_comparison_nb.py`, `pipelines/MIMIC_Extract/_patch_copy2.py` | **Provenance, not deprecated.** They generate/patch the live notebook. A defect present only in a generator is a latent regression that returns on regeneration — real, but not currently rendered. |
-| `Managers/evaluation_manager.py` legacy `evaluate_filter_impact` | **Live by design**, alongside `evaluate_filter_impact_cv`. Both paths coexist; `IMPACT_SUFFIX=''` and `paper_figures/` still consume the legacy one. A fix in only one path is *partial*. |
+| `Managers/evaluation_manager.py` legacy `evaluate_filter_impact` | **Live by design**, alongside `evaluate_filter_impact_cv`. Both paths coexist. Since 2026-08-26 `paper_figures/` consumes `_cv`, but `notebook.py`'s `IMPACT_SUFFIX` still defaults to `''`, so the two now show different designs from the same directory. A fix in only one path is *partial*. |
+| `Managers/evaluation_manager.py` `evaluate_balance_impact_cv` (stage H, 2026-08-20) | **A third path, live by design.** Answers a different question — does balancing the *training data* beat moving the threshold — so it deliberately does not call `pick_threshold` or `inner_split` and scores at a fixed 0.5. Its numbers are **not** comparable to either path above and are written to `<label>_balance_impact_cv.pkl`. Fixing a shared helper still has to land on all three. |
 | `_deprecated/MANIFEST.md` | Deprecated *code* catalogue, but a **live documentation source**. A false statement inside it is an open defect (see R-34). |
+| `rerun/regen_centroids.py` | **Live again as of 2026-08-30.** It was a one-off pinned to `fill missing data`; it now takes `--arms` (`all` = the nine vitals-dependent arms) and is stage C of any rerun. Its default is still the single old arm, so pre-2026-08-30 invocations behave unchanged. |
+| `rerun/regen_filtered_datasets.py`, `rerun/job_k_filtered_datasets.sh` | **Live.** Stage K — the generalised form of stage A, rebuilding any (arm, aggregation) cell. Added for the 2026-08-30 vital-range rerun. |
 
 ---
 
@@ -85,11 +89,15 @@ python Experiments/apply_dataset_filter.py mimic-iii mean
 marimo edit Experiments/notebook.py
 
 # 4. paper figures
-python Experiments/render_paper_figures.py
+sbatch rerun/job_j_figures.sh          # renders from the _cv artifacts;
+                                      # --impact-suffix '' for the legacy design
 ```
 
-Live `rerun/` stage scripts: `_common.py`, `_cpu_backend.py`, `regen_filter_impact.py`,
-`regen_admission_ids.py` (stage E), `regen_filter_impact_cv.py` (F), `verify_cv.py` (G),
+Live `rerun/` stage scripts: `_common.py`, `_cpu_backend.py`, `regen_filter_impact.py` (stage B),
+`regen_centroids.py` (C), `regen_admission_ids.py` (E), `regen_filter_impact_cv.py` (F),
+`verify_cv.py` (G), `regen_balance_cv.py` (H), `verify_balance.py` (I),
+`regen_filtered_datasets.py` (K), `measure_boundary_counts.py`,
+`quarantine_pre_spo2_fix.py`, `sweep_stale_figures.py`, `test_vital_bounds.py`,
 `confusion_matrices_mean_raw.py`, `export_confusion_workbook.py`, and `bug_register.py`
 (`python rerun/bug_register.py` rewrites `rerun/logs/bug_register.html`).
 

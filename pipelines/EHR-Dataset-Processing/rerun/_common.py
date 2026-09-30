@@ -40,14 +40,26 @@ LABELS = ["icu", "mortality"]
 # them makes the rerun incomparable to the run it replaces.
 RANDOM_SEEDS = [22, 985, 439, 81]
 
+# Hard physiological ranges for the seven vitals, keyed by the repo-wide lowercase
+# names. `_remove_outliers` tests these as a CLOSED interval (`lo <= v <= hi`), so
+# the upper bound is a value the filter keeps, not the first one it rejects. Until
+# 2026-08-30 every table here sat one unit low (SpO2 99, so a perfectly normal — and
+# modal — reading of 100% was deleted as a charting error); see bug register F-02.
+#
+# Six copies of this table exist and they must stay literally identical. Drift
+# between them is what produced register entry R-30:
+#   Experiments/apply_dataset_filter.py     Experiments/notebook.py
+#   rerun/_common.py                        gallery/render_marimo_mimic_iii.py
+#   Experiments/fill_missing_data_analysis.py
+#   Experiments/render_paper_figures.py     (names/units only; ranges inert there)
 VITALS = {
-    'heart rate': [(1, 599), 'bpm'],
-    'systolic blood pressure': [(1, 399), 'mmHg'],
-    'diastolic blood pressure': [(1, 299), 'mmHg'],
-    'mean blood pressure': [(1, 299), 'mmHg'],
-    'respiration rate': [(1, 69), 'breaths/min'],
-    'temperature': [(21, 49), 'C'],
-    'oxygen saturation': [(1, 99), '%'],
+    'heart rate': [(1, 600), 'bpm'],
+    'systolic blood pressure': [(1, 400), 'mmHg'],
+    'diastolic blood pressure': [(1, 300), 'mmHg'],
+    'mean blood pressure': [(1, 300), 'mmHg'],
+    'respiration rate': [(1, 70), 'breaths/min'],
+    'temperature': [(21, 50), 'C'],
+    'oxygen saturation': [(1, 100), '%'],
 }
 
 # name → (function, pre_aggregate). Order is load-bearing: filter_impact results
@@ -69,6 +81,33 @@ FILTERS = {
 
 DATA_ROOT = EHR_ROOT / "Data" / DATASET_NAME
 
+# The nine arms whose cached datasets depend on the VITALS ranges: the seven per-vital
+# outlier filters (each reads only its own bound), 'all vitals' (which chains all seven),
+# and 'fill missing data' (whose ">= 2 known values" guard tests every range —
+# ehr_filter_manager.py:129-130 — which is how the bounds reach an arm that does no
+# outlier removal of its own).
+#
+# The other four arms are deliberately NOT here. 'raw' never sees `vitals`; the three
+# structural filters accept it and ignore it, and create_filter_dataset builds them from
+# the RAW aggregated records rather than from an outlier-filtered chain
+# (dataset_manager.py:96), so a change to the ranges cannot reach them. That is what
+# makes them the control group for the 2026-08-30 rerun: if any of raw / long missing
+# segment / long gap / high invalid data moves, something was rebuilt that should not
+# have been.
+VITALS_DEPENDENT_ARMS = [
+    'heart rate',
+    'systolic blood pressure',
+    'diastolic blood pressure',
+    'mean blood pressure',
+    'respiration rate',
+    'temperature',
+    'oxygen saturation',
+    'fill missing data',
+    'all vitals',
+]
+
+VITALS_INDEPENDENT_ARMS = ['raw', 'long missing segment', 'long gap', 'high invalid data']
+
 
 def agg_from_task_id(task_id: int) -> str:
     return AGGREGATIONS[task_id]
@@ -77,3 +116,14 @@ def agg_from_task_id(task_id: int) -> str:
 def agg_label_from_task_id(task_id: int):
     """Array index → (aggregation, label). 10 tasks: 5 aggregations × 2 labels."""
     return AGGREGATIONS[task_id // len(LABELS)], LABELS[task_id % len(LABELS)]
+
+
+def arm_agg_from_task_id(task_id: int):
+    """Array index → (arm, aggregation) over VITALS_DEPENDENT_ARMS × AGGREGATIONS.
+
+    9 arms × 5 aggregations = 45 tasks. Arm-major, so consecutive task ids share an
+    arm — which is what you want when the array is throttled and you would rather
+    finish one arm across all aggregations than half of every arm.
+    """
+    n = len(AGGREGATIONS)
+    return VITALS_DEPENDENT_ARMS[task_id // n], AGGREGATIONS[task_id % n]

@@ -1,0 +1,55 @@
+[median] 9 arm(s): heart rate, systolic blood pressure, diastolic blood pressure, mean blood pressure, respiration rate, temperature, oxygen saturation, fill missing data, all vitals
+[median/heart rate] loading heart_rate_filtered_dataset_ehr.pkl ...
+[median/heart rate] loaded in 2.6s
+[median/heart rate] wrote icu_heart rate_pos.pkl (17,272 points)
+[median/heart rate] wrote icu_heart rate_neg.pkl (28,760 points)
+[median/heart rate] wrote mortality_heart rate_pos.pkl (4,445 points)
+[median/heart rate] wrote mortality_heart rate_neg.pkl (41,587 points)
+[median/systolic blood pressure] loading systolic_blood_pressure_filtered_dataset_ehr.pkl ...
+[median/systolic blood pressure] loaded in 2.7s
+[median/systolic blood pressure] wrote icu_systolic blood pressure_pos.pkl (17,272 points)
+[median/systolic blood pressure] wrote icu_systolic blood pressure_neg.pkl (28,760 points)
+[median/systolic blood pressure] wrote mortality_systolic blood pressure_pos.pkl (4,445 points)
+[median/systolic blood pressure] wrote mortality_systolic blood pressure_neg.pkl (41,587 points)
+[median/diastolic blood pressure] loading diastolic_blood_pressure_filtered_dataset_ehr.pkl ...
+[median/diastolic blood pressure] loaded in 2.7s
+[median/diastolic blood pressure] wrote icu_diastolic blood pressure_pos.pkl (17,272 points)
+[median/diastolic blood pressure] wrote icu_diastolic blood pressure_neg.pkl (28,760 points)
+[median/diastolic blood pressure] wrote mortality_diastolic blood pressure_pos.pkl (4,445 points)
+[median/diastolic blood pressure] wrote mortality_diastolic blood pressure_neg.pkl (41,587 points)
+[median/mean blood pressure] loading mean_blood_pressure_filtered_dataset_ehr.pkl ...
+[median/mean blood pressure] loaded in 2.6s
+[median/mean blood pressure] wrote icu_mean blood pressure_pos.pkl (17,272 points)
+[median/mean blood pressure] wrote icu_mean blood pressure_neg.pkl (28,760 points)
+[median/mean blood pressure] wrote mortality_mean blood pressure_pos.pkl (4,445 points)
+[median/mean blood pressure] wrote mortality_mean blood pressure_neg.pkl (41,587 points)
+[median/respiration rate] loading respiration_rate_filtered_dataset_ehr.pkl ...
+[median/respiration rate] loaded in 2.7s
+[median/respiration rate] wrote icu_respiration rate_pos.pkl (17,272 points)
+[median/respiration rate] wrote icu_respiration rate_neg.pkl (28,760 points)
+[median/respiration rate] wrote mortality_respiration rate_pos.pkl (4,445 points)
+[median/respiration rate] wrote mortality_respiration rate_neg.pkl (41,587 points)
+[median/temperature] loading temperature_filtered_dataset_ehr.pkl ...
+[median/temperature] loaded in 2.7s
+[median/temperature] wrote icu_temperature_pos.pkl (17,272 points)
+[median/temperature] wrote icu_temperature_neg.pkl (28,760 points)
+[median/temperature] wrote mortality_temperature_pos.pkl (4,445 points)
+[median/temperature] wrote mortality_temperature_neg.pkl (41,587 points)
+[median/oxygen saturation] loading oxygen_saturation_filtered_dataset_ehr.pkl ...
+[median/oxygen saturation] loaded in 2.9s
+[median/oxygen saturation] wrote icu_oxygen saturation_pos.pkl (17,272 points)
+[median/oxygen saturation] wrote icu_oxygen saturation_neg.pkl (28,760 points)
+[median/oxygen saturation] wrote mortality_oxygen saturation_pos.pkl (4,445 points)
+[median/oxygen saturation] wrote mortality_oxygen saturation_neg.pkl (41,587 points)
+[median/fill missing data] loading fill_missing_data_filtered_dataset_ehr.pkl ...
+[median/fill missing data] loaded in 2.8s
+[median/fill missing data] wrote icu_fill missing data_pos.pkl (17,272 points)
+[median/fill missing data] wrote icu_fill missing data_neg.pkl (28,760 points)
+[median/fill missing data] wrote mortality_fill missing data_pos.pkl (4,445 points)
+[median/fill missing data] wrote mortality_fill missing data_neg.pkl (41,587 points)
+[median/all vitals] loading all_vitals_filtered_dataset_ehr.pkl ...
+[median/all vitals] loaded in 2.7s
+[median/all vitals] wrote icu_all vitals_pos.pkl (17,272 points)
+[median/all vitals] wrote icu_all vitals_neg.pkl (28,760 points)
+[median/all vitals] wrote mortality_all vitals_pos.pkl (4,445 points)
+[median/all vitals] wrote mortality_all vitals_neg.pkl (41,587 points)

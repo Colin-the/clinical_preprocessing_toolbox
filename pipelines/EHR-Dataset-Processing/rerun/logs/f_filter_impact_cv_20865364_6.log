@@ -1,0 +1,18 @@
+[mean deviation/icu] loading 13 arms ...
+[mean deviation/icu] loaded in 48.0s (raw 46,032 records)
+[mean deviation/icu] evaluated in 10.1 min
+[mean deviation/icu] wrote icu_filter_impact_cv.pkl and icu_filter_impact_cv_diagnostics.json
+[mean deviation/icu] raw: oof_acc=0.6715 (+/-0.0027 across repeats) oof_f1=0.6497 n=46,032 coverage=1.000
+    raw                        n_paired=46,032 n01=    0 n10=    0
+    heart rate                 n_paired=46,032 n01=  499 n10=  661
+    systolic blood pressure    n_paired=46,032 n01=  694 n10=  524
+    diastolic blood pressure   n_paired=46,032 n01=  501 n10=  551
+    mean blood pressure        n_paired=46,032 n01=  511 n10=  564
+    respiration rate           n_paired=46,032 n01=  544 n10=  638
+    temperature                n_paired=46,032 n01=  506 n10=  494
+    oxygen saturation          n_paired=46,032 n01=  499 n10=  482
+    fill missing data          n_paired=46,032 n01=2,514 n10=2,546
+    long missing segment       n_paired=   367 n01=   92 n10=   82
+    long gap                   n_paired=   251 n01=   32 n10=   54
+    high invalid data          n_paired=     0 n01=    0 n10=    0  <-- DEGENERATE
+    all vitals                 n_paired=46,032 n01=  643 n10=  700

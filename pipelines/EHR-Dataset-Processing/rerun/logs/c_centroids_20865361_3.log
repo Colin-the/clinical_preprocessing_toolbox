@@ -1,0 +1,55 @@
+[mean deviation] 9 arm(s): heart rate, systolic blood pressure, diastolic blood pressure, mean blood pressure, respiration rate, temperature, oxygen saturation, fill missing data, all vitals
+[mean deviation/heart rate] loading heart_rate_filtered_dataset_ehr.pkl ...
+[mean deviation/heart rate] loaded in 2.7s
+[mean deviation/heart rate] wrote icu_heart rate_pos.pkl (17,272 points)
+[mean deviation/heart rate] wrote icu_heart rate_neg.pkl (28,760 points)
+[mean deviation/heart rate] wrote mortality_heart rate_pos.pkl (4,445 points)
+[mean deviation/heart rate] wrote mortality_heart rate_neg.pkl (41,587 points)
+[mean deviation/systolic blood pressure] loading systolic_blood_pressure_filtered_dataset_ehr.pkl ...
+[mean deviation/systolic blood pressure] loaded in 2.8s
+[mean deviation/systolic blood pressure] wrote icu_systolic blood pressure_pos.pkl (17,272 points)
+[mean deviation/systolic blood pressure] wrote icu_systolic blood pressure_neg.pkl (28,760 points)
+[mean deviation/systolic blood pressure] wrote mortality_systolic blood pressure_pos.pkl (4,445 points)
+[mean deviation/systolic blood pressure] wrote mortality_systolic blood pressure_neg.pkl (41,587 points)
+[mean deviation/diastolic blood pressure] loading diastolic_blood_pressure_filtered_dataset_ehr.pkl ...
+[mean deviation/diastolic blood pressure] loaded in 2.8s
+[mean deviation/diastolic blood pressure] wrote icu_diastolic blood pressure_pos.pkl (17,272 points)
+[mean deviation/diastolic blood pressure] wrote icu_diastolic blood pressure_neg.pkl (28,760 points)
+[mean deviation/diastolic blood pressure] wrote mortality_diastolic blood pressure_pos.pkl (4,445 points)
+[mean deviation/diastolic blood pressure] wrote mortality_diastolic blood pressure_neg.pkl (41,587 points)
+[mean deviation/mean blood pressure] loading mean_blood_pressure_filtered_dataset_ehr.pkl ...
+[mean deviation/mean blood pressure] loaded in 2.7s
+[mean deviation/mean blood pressure] wrote icu_mean blood pressure_pos.pkl (17,272 points)
+[mean deviation/mean blood pressure] wrote icu_mean blood pressure_neg.pkl (28,760 points)
+[mean deviation/mean blood pressure] wrote mortality_mean blood pressure_pos.pkl (4,445 points)
+[mean deviation/mean blood pressure] wrote mortality_mean blood pressure_neg.pkl (41,587 points)
+[mean deviation/respiration rate] loading respiration_rate_filtered_dataset_ehr.pkl ...
+[mean deviation/respiration rate] loaded in 2.8s
+[mean deviation/respiration rate] wrote icu_respiration rate_pos.pkl (17,272 points)
+[mean deviation/respiration rate] wrote icu_respiration rate_neg.pkl (28,760 points)
+[mean deviation/respiration rate] wrote mortality_respiration rate_pos.pkl (4,445 points)
+[mean deviation/respiration rate] wrote mortality_respiration rate_neg.pkl (41,587 points)
+[mean deviation/temperature] loading temperature_filtered_dataset_ehr.pkl ...
+[mean deviation/temperature] loaded in 2.7s
+[mean deviation/temperature] wrote icu_temperature_pos.pkl (17,272 points)
+[mean deviation/temperature] wrote icu_temperature_neg.pkl (28,760 points)
+[mean deviation/temperature] wrote mortality_temperature_pos.pkl (4,445 points)
+[mean deviation/temperature] wrote mortality_temperature_neg.pkl (41,587 points)
+[mean deviation/oxygen saturation] loading oxygen_saturation_filtered_dataset_ehr.pkl ...
+[mean deviation/oxygen saturation] loaded in 2.7s
+[mean deviation/oxygen saturation] wrote icu_oxygen saturation_pos.pkl (17,272 points)
+[mean deviation/oxygen saturation] wrote icu_oxygen saturation_neg.pkl (28,760 points)
+[mean deviation/oxygen saturation] wrote mortality_oxygen saturation_pos.pkl (4,445 points)
+[mean deviation/oxygen saturation] wrote mortality_oxygen saturation_neg.pkl (41,587 points)
+[mean deviation/fill missing data] loading fill_missing_data_filtered_dataset_ehr.pkl ...
+[mean deviation/fill missing data] loaded in 2.8s
+[mean deviation/fill missing data] wrote icu_fill missing data_pos.pkl (17,272 points)
+[mean deviation/fill missing data] wrote icu_fill missing data_neg.pkl (28,760 points)
+[mean deviation/fill missing data] wrote mortality_fill missing data_pos.pkl (4,445 points)
+[mean deviation/fill missing data] wrote mortality_fill missing data_neg.pkl (41,587 points)
+[mean deviation/all vitals] loading all_vitals_filtered_dataset_ehr.pkl ...
+[mean deviation/all vitals] loaded in 2.6s
+[mean deviation/all vitals] wrote icu_all vitals_pos.pkl (17,272 points)
+[mean deviation/all vitals] wrote icu_all vitals_neg.pkl (28,760 points)
+[mean deviation/all vitals] wrote mortality_all vitals_pos.pkl (4,445 points)
+[mean deviation/all vitals] wrote mortality_all vitals_neg.pkl (41,587 points)
